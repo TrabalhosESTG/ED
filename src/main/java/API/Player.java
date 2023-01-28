@@ -1,3 +1,4 @@
+package API;
 public class Player {
     private String name;
     private int level;

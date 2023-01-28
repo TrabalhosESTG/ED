@@ -1,3 +1,4 @@
+package API;
 import java.sql.Time;
 
 
@@ -6,7 +7,7 @@ public class Connector {
     private String name;
     private double energy;
     private Time time;
-    
+
 
     public Connector(String name) {
         this.name = name;
