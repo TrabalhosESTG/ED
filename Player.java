@@ -64,7 +64,18 @@ public class Player {
     private void setTeam(String team) {
         this.team = team;
     }
-    private void removeTeam() {
-        this.team = "None";
+
+    private void setEnergy(double energy) {
+        this.energy += energy;
+        if (this.energy > this.totalEnergy) {
+            this.energy = this.totalEnergy;
+        }
+    }
+
+    private void removeEnergy(double energy) {
+        this.energy -= energy;
+        if (this.energy < 0) {
+            this.energy = 0;
+        }
     }
 }
