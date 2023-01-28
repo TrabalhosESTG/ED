@@ -65,7 +65,7 @@ public class Player {
         this.team = team;
     }
 
-    public void setEnergy(double energy) {
+    public void loadEnergy(double energy) {
         this.energy += energy;
         if (this.energy > this.totalEnergy) {
             this.energy = this.totalEnergy;
