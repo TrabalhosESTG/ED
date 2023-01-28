@@ -1,6 +1,7 @@
 package Interfaces;
-import java.util.ConcurrentModificationException;
-import java.util.NoSuchElementException;
+import Exceptions.ConcurrentModificationException;
+import Exceptions.EmptyCollectionException;
+import Exceptions.NoSuchElementException;
 
 public interface IteratorADT<T> {
     T next() throws ConcurrentModificationException, NoSuchElementException;
