@@ -24,55 +24,55 @@ public class Player {
         this.totalEnergy = 100;
     }
 
-    private void levelUp() {
+    public void levelUp() {
         this.level++;
         this.totalEnergy += 10;
         this.exp = 0;
     }
 
-    private void gainExp() {
+    public void gainExp() {
         this.exp += Math.pow((this.level/0.07), 2);
         if (this.exp >= 100) {
             levelUp();
         }
     }
 
-    private String getName() {
+    public String getName() {
         return this.name;
     }
 
-    private int getLevel() {
+    public int getLevel() {
         return this.level;
     }
 
-    private String getTeam() {
+    public String getTeam() {
         return this.team;
     }
 
-    private double getExp() {
+    public double getExp() {
         return this.exp;
     }
 
-    private double getEnergy() {
+    public double getEnergy() {
         return this.energy;
     }
 
-    private int getTotalEnergy() {
+    public int getTotalEnergy() {
         return this.totalEnergy;
     }
 
-    private void setTeam(String team) {
+    public void setTeam(String team) {
         this.team = team;
     }
 
-    private void setEnergy(double energy) {
+    public void setEnergy(double energy) {
         this.energy += energy;
         if (this.energy > this.totalEnergy) {
             this.energy = this.totalEnergy;
         }
     }
 
-    private void removeEnergy(double energy) {
+    public void removeEnergy(double energy) {
         this.energy -= energy;
         if (this.energy < 0) {
             this.energy = 0;
