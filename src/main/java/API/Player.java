@@ -6,23 +6,26 @@ public class Player {
     private double exp;
     private double energy;
     private int totalEnergy;
+    private int id;
 
-    public Player(String name) {
+    public Player(String name, int id) {
         this.name = name;
         this.level = 1;
         this.team = "None";
         this.exp = 0;
         this.energy = 100;
         this.totalEnergy = 100;
+        this.id = id;
     }
 
-    public Player(String name, String team) {
+    public Player(String name, String team, int id) {
         this.name = name;
         this.level = 1;
         this.team = team;
         this.exp = 0;
         this.energy = 100;
         this.totalEnergy = 100;
+        this.id = id;
     }
 
     public void levelUp() {
@@ -46,6 +49,9 @@ public class Player {
         return this.level;
     }
 
+    public int getId() {
+        return this.id;
+    }
     public String getTeam() {
         return this.team;
     }

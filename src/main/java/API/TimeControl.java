@@ -1,6 +1,5 @@
 package API;
 
-import java.sql.Time;
 
 public class TimeControl {
     protected String playerName;
