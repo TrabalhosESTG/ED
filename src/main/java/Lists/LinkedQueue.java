@@ -4,66 +4,66 @@ import Exceptions.EmptyCollectionException;
 import Interfaces.QueueADT;
 
 public class LinkedQueue<T> implements QueueADT<T> {
-    private int count;
-    private LinearNode<T> front, rear;
+	private int count;
+	private LinearNode<T> front, rear;
 
-    public LinkedQueue() {
-        count = 0;
-        front = rear = null;
-    }
+	public LinkedQueue() {
+		count = 0;
+		front = rear = null;
+	}
 
-    public void enqueue(T element) {
-        LinearNode<T> node = new LinearNode<T>(element);
+	public void enqueue(T element) {
+		LinearNode<T> node = new LinearNode<T>(element);
 
-        if (isEmpty())
-            front = node;
-        else
-            rear.setNext(node);
+		if (isEmpty())
+			front = node;
+		else
+			rear.setNext(node);
 
-        rear = node;
-        count++;
-    }
+		rear = node;
+		count++;
+	}
 
-    public T dequeue() throws EmptyCollectionException {
-        if (isEmpty())
-            throw new EmptyCollectionException("queue");
+	public T dequeue() throws EmptyCollectionException {
+		if (isEmpty())
+			throw new EmptyCollectionException("queue");
 
-        T result = front.getElement();
-        front = front.getNext();
-        count--;
+		T result = front.getElement();
+		front = front.getNext();
+		count--;
 
-        if (isEmpty())
-            rear = null;
+		if (isEmpty())
+			rear = null;
 
-        return result;
-    }
+		return result;
+	}
 
-    public T first() throws EmptyCollectionException {
-        if (isEmpty())
-            throw new EmptyCollectionException("queue");
+	public T first() throws EmptyCollectionException {
+		if (isEmpty())
+			throw new EmptyCollectionException("queue");
 
-        return front.getElement();
-    }
+		return front.getElement();
+	}
 
-    public boolean isEmpty() {
-        return (count == 0);
-    }
+	public boolean isEmpty() {
+		return (count == 0);
+	}
 
-    public int size() {
-        return count;
-    }
+	public int size() {
+		return count;
+	}
 
-    public String toString() {
-        String result = "LinkedQueue {";
-        LinearNode<T> current = front;
-        if (!isEmpty()) {
-            while (current != null) {
-                result = result + " " + (current.getElement());
-                current = current.getNext();
-            }
-        }
-        result = result + " }";
-        return result;
-    }
-    
+	public String toString() {
+		String result = "LinkedQueue {";
+		LinearNode<T> current = front;
+		if (!isEmpty()) {
+			while (current != null) {
+				result = result + " " + (current.getElement());
+				current = current.getNext();
+			}
+		}
+		result = result + " }";
+		return result;
+	}
+	
 }

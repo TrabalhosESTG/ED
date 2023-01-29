@@ -4,9 +4,9 @@ import Exceptions.EmptyCollectionException;
 import Exceptions.NoSuchElementException;
 
 public interface IteratorADT<T> {
-    T next() throws ConcurrentModificationException, NoSuchElementException;
+	T next() throws ConcurrentModificationException, NoSuchElementException;
 
-    boolean hasNext();
+	boolean hasNext();
 
-    void remove() throws ConcurrentModificationException, NoSuchElementException, UnsupportedOperationException, EmptyCollectionException;
+	void remove() throws ConcurrentModificationException, NoSuchElementException, UnsupportedOperationException, EmptyCollectionException;
 }

@@ -5,60 +5,60 @@ import Exceptions.EmptyStackException;
 import Interfaces.StackADT;
 
 public class LinkedStack<T> implements StackADT<T>{
-    private int count;
-    private LinearNode<T> top;
+	private int count;
+	private LinearNode<T> top;
 
-    public LinkedStack()    {
-        count = 0;
-        top = null;
-    }
+	public LinkedStack()    {
+		count = 0;
+		top = null;
+	}
 
-    public void push (T element)    {
-        LinearNode<T> temp = new LinearNode<T>(element);
+	public void push (T element)    {
+		LinearNode<T> temp = new LinearNode<T>(element);
 
-        temp.setNext(top);
-        top = temp;
-        count++;
-    }
+		temp.setNext(top);
+		top = temp;
+		count++;
+	}
 
-    public T pop() throws EmptyCollectionException {
-        if (isEmpty())
-            throw new EmptyCollectionException("Stack");
+	public T pop() throws EmptyCollectionException {
+		if (isEmpty())
+			throw new EmptyCollectionException("Stack");
 
-        T result = top.getElement();
-        top = top.getNext();
-        count--;
+		T result = top.getElement();
+		top = top.getNext();
+		count--;
 
-        return result;
-    }
+		return result;
+	}
 
-    public T peek() throws EmptyStackException {
-        if (isEmpty())
-            throw new EmptyStackException();
+	public T peek() throws EmptyStackException {
+		if (isEmpty())
+			throw new EmptyStackException();
 
-        return top.getElement();
-    }
+		return top.getElement();
+	}
 
-    public boolean isEmpty() {
+	public boolean isEmpty() {
 
-        return (count == 0);
-    }
+		return (count == 0);
+	}
 
-    public int size(){
+	public int size(){
 
-        return count;
-    }
+		return count;
+	}
 
-    public String toString() {
-        String result = "";
-        LinearNode<T> current = top;
+	public String toString() {
+		String result = "";
+		LinearNode<T> current = top;
 
-        while (current != null)
-        {
-            result = result + (current.getElement()).toString() + "\n";
-            current = current.getNext();
-        }
+		while (current != null)
+		{
+			result = result + (current.getElement()).toString() + "\n";
+			current = current.getNext();
+		}
 
-        return result;
-    }
+		return result;
+	}
 }
