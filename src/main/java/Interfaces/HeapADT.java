@@ -1,5 +1,6 @@
 package Interfaces;
 
+import Exceptions.EmptyCollectionException;
 
 public interface HeapADT<T> extends BinaryTreeADT<T> {
    /**
