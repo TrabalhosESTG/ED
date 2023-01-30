@@ -1,13 +1,19 @@
 package API;
+
+import Lists.LinearNode;
+import Lists.LinkedList;
+
 public class Portal {
-	private Player player;
-	private String name;
-	private String conquererPlayer;
-	private String conquererTeam;
-	private double energy;
-	private int maxEnergy;
-	private double latitude;
-	private double longitude;
+	protected Player player;
+	protected String name;
+	protected String conquererPlayer;
+	protected String conquererTeam;
+	protected double energy;
+	protected int maxEnergy;
+	protected double latitude;
+	protected double longitude;
+	protected LinkedList<ConnectorControl> connectorControl = new LinkedList<ConnectorControl>();
+	protected LinkedList<PortalControl> portalControl = new LinkedList<PortalControl>();
 
 	public Portal(String name, int maxEnergy) {
 		this.name = name;
@@ -135,6 +141,34 @@ public class Portal {
 			player.removeEnergy(energy);
 			conquer();
 			System.out.println("You have conquered" + this.name + "!");
+		}
+	}
+
+	public void addConnector(Connector connector, Double weight){
+		connectorControl.add(new ConnectorControl(connector, weight));
+	}
+
+	public void addPortal(Portal portal, Double weight){
+		portalControl.add(new PortalControl(portal, weight));
+	}
+	
+	public void removeConnector(Connector connector){
+		LinearNode<ConnectorControl> current = connectorControl.getHead();
+		while(current != null && !current.getElement().getConnector().equals(connector)){
+			current = current.getNext();
+		}
+		if(current != null){
+			connectorControl.remove(current.getElement());
+		}
+	}
+
+	public void removePortal(Portal portal){
+		LinearNode<PortalControl> current = portalControl.getHead();
+		while(current != null && !current.getElement().getPortal().equals(portal)){
+			current = current.getNext();
+		}
+		if(current != null){
+			portalControl.remove(current.getElement());
 		}
 	}
 }
