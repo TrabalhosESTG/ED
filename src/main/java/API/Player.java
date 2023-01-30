@@ -3,15 +3,15 @@ package API;
 import org.json.simple.JSONObject;
 
 public class Player {
-	private String name;
-	private int level;
-	private String team;
-	private double exp;
-	private double energy;
-	private int totalEnergy;
-	private int id;
-	private double latitude;
-	private double longitude;
+	protected String name;
+	protected int level;
+	protected String team;
+	protected double exp;
+	protected double energy;
+	protected int totalEnergy;
+	protected int id;
+	protected double latitude;
+	protected double longitude;
 
 	public Player(String name, int id) {
 		this.name = name;

@@ -5,8 +5,8 @@ import Lists.LinkedList;
 import org.json.simple.*;
 
 public class PlayerLinkedList {
-	LinkedList<Player> playerList = new LinkedList<Player>();
-	int count = 0;
+	protected LinkedList<Player> playerList = new LinkedList<Player>();
+	protected int count = 0;
 
 	public int getPlayerCount()
 	{

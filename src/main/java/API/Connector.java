@@ -11,6 +11,8 @@ public class Connector {
 	protected double latitude;
 	protected double longitude;
 	protected LinkedList<TimeControl> timeControl = new LinkedList<TimeControl>();
+	protected LinkedList<ConnectorControl> connectorControl = new LinkedList<ConnectorControl>();
+	protected LinkedList<PortalControl> portalControl = new LinkedList<PortalControl>();
 	
 
 
@@ -29,6 +31,14 @@ public class Connector {
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
+	}
+
+	public void setEnergy(double energy) {
+		this.energy = energy;
+	}
+
+	public double getEnergy() {
+		return energy;
 	}
 
 	public double getLongitude() {
@@ -60,6 +70,34 @@ public class Connector {
 			}
 		}
 
+	}
+
+	public void addConnector(Connector connector, Double weight){
+		connectorControl.add(new ConnectorControl(connector, weight));
+	}
+
+	public void addPortal(Portal portal, Double weight){
+		portalControl.add(new PortalControl(portal, weight));
+	}
+
+	public void removeConnector(Connector connector){
+		LinearNode<ConnectorControl> current = connectorControl.getHead();
+		while(current != null && !current.getElement().getConnector().equals(connector)){
+			current = current.getNext();
+		}
+		if(current != null){
+			connectorControl.remove(current.getElement());
+		}
+	}
+
+	public void removePortal(Portal portal){
+		LinearNode<PortalControl> current = portalControl.getHead();
+		while(current != null && !current.getElement().getPortal().equals(portal)){
+			current = current.getNext();
+		}
+		if(current != null){
+			portalControl.remove(current.getElement());
+		}
 	}
 }
 
