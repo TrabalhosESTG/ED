@@ -6,13 +6,21 @@ import org.json.simple.*;
 
 public class PlayerLinkedList {
 	LinkedList<Player> playerList = new LinkedList<Player>();
+	int count = 0;
+
+	public int getPlayerCount()
+	{
+		return count;
+	}
 
 	public void addPlayer(Player player) {
 		playerList.add(player);
+		count++;
 	}
-	
+
 	public void removePlayer(Player player) {
 		playerList.remove(player);
+		count--;
 	}
 
 	public Player getPlayer(int id) {
@@ -46,7 +54,7 @@ public class PlayerLinkedList {
 		}
 	}
 
-	
+
 	public String criarJSON(){
 		JSONObject obj = new JSONObject();
 		LinearNode<Player> current = playerList.getHead();
