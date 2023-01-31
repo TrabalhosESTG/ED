@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import API.Map;
 import API.Portal;
 
 @RestController
@@ -18,7 +19,9 @@ public class Portals {
 		@RequestParam(value = "latitude", defaultValue = "0") double latitude,
 		@RequestParam(value = "longitude", defaultValue = "0") double longitude) {
 		Portal portal = new Portal(id,name, maxEnergy, energy, latitude, longitude);
-		//adicionar portal ao grafo de portais
+		Map map = new Map();
+		map.addPortal(portal);
 		return portal.getEnergy(); //retornar id do portal
+
 	}
 }
