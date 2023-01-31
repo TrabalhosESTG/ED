@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import API.Connector;
+import API.Map;
 
 @RestController
 public class Connectors {
@@ -17,7 +18,8 @@ public class Connectors {
 		@RequestParam(value = "latitude", defaultValue = "0") double latitude,
 		@RequestParam(value = "longitude", defaultValue = "0") double longitude) {
 		Connector connector = new Connector(id,name, cooldown, energy, latitude, longitude);
-		//adicionar portal ao grafo de portais
+		Map map = new Map();
+		map.addConnector(connector);
 		return connector.getEnergy(); //retornar id do portal
 	}
 }
