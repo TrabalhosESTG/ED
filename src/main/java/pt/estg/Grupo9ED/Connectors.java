@@ -2,10 +2,11 @@ package pt.estg.Grupo9ED;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import API.Connector;
 
-
+@RestController
 public class Connectors {
 	@PostMapping("/admin/connectors/create")
 	public int createConnector(

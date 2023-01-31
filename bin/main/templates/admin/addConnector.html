@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Adicionar Conector</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Adicionar Conector</h1>
+	<form action="submit_connector.php" method="post">
+		<label for="id">ID:</label>
+		<input type="text" id="id" name="id" required>
+		<br><br>
+		<label for="name">Nome:</label>
+		<input type="text" id="name" name="name" required>
+		<br><br>
+		<label for="cooldown">Cooldown:</label>
+		<input type="number" id="cooldown" name="cooldown" required>
+		<br><br>
+		<label for="energy">Energia:</label>
+		<input type="number" id="energy" name="energy" required>
+		<br><br>
+		<label for="latitude">Latitude:</label>
+		<input type="text" id="latitude" name="latitude" required>
+		<br><br>
+		<label for="longitude">Longitude:</label>
+		<input type="text" id="longitude" name="longitude" required>
+		<br><br>
+		<input type="submit" value="Adicionar Conector">
+	  </form>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js" integrity="sha512-nO7wgHUoWPYGCNriyGzcFwPSF+bPDOR+NvtOYy2wMcWkrnCNPKBcFEkU80XIN14UVja0Gdnff9EmydyLlOL7mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		// Captura o evento de envio do formulário
+		var form = document.querySelector("form");
+		form.addEventListener("submit", processForm);
+
+		function processForm(event) {
+		event.preventDefault();
+		var nome = document.querySelector("#name").value;
+		var id = document.querySelector("#id").value;
+		var cooldown = document.querySelector("#cooldown").value;
+		var energy = document.querySelector("#energy").value;
+		var latitude = document.querySelector("#latitude").value;
+		var longitude = document.querySelector("#longitude").value;
+
+		$.post("connectors/create?id=" + id
+			+ "&name=" + nome
+			+ "&cooldown=" + cooldown
+			+ "&energy=" +  energy
+			+ "&latitude=" + longitude
+			+ "&longitude=" + latitude, function( data ) {
+			alert("Connector criado Id:" + data);
+		});
+		}
+	</script>
+</body>
+</html>

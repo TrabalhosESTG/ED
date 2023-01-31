@@ -9,4 +9,9 @@ public class AdminController {
 	public String createPlayer() {
 		return "admin/createPlayer";
 	}
+
+	@GetMapping("/admin/createConnector")
+	public String createConnector() {
+		return "admin/addConnector";
+	}
 }
