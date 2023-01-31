@@ -5,20 +5,26 @@ import Lists.LinearNode;
 import Lists.LinkedList;
 
 public class Connector {
+	protected int id;
 	protected Player player;
 	protected String name;
-	protected double energy;
+	protected int energy;
+	protected int cooldown;
 	protected double latitude;
 	protected double longitude;
 	protected LinkedList<TimeControl> timeControl = new LinkedList<TimeControl>();
 	protected LinkedList<ConnectorControl> connectorControl = new LinkedList<ConnectorControl>();
 	protected LinkedList<PortalControl> portalControl = new LinkedList<PortalControl>();
-	
 
 
-	public Connector(String name) {
+
+	public Connector(int id, String name, int cooldown, int energy, Double latitude, Double longitude) {
+		this.id = id;
 		this.name = name;
-		this.energy = 0;
+		this.cooldown = cooldown;
+		this.energy = energy;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public void setPlayer(Player player) {
@@ -33,11 +39,11 @@ public class Connector {
 		this.latitude = latitude;
 	}
 
-	public void setEnergy(double energy) {
+	public void setEnergy(int energy) {
 		this.energy = energy;
 	}
 
-	public double getEnergy() {
+	public int getEnergy() {
 		return energy;
 	}
 
@@ -49,7 +55,7 @@ public class Connector {
 		this.longitude = longitude;
 	}
 
-	
+
 	public void loadPlayerEnergy(){
 		LinearNode<TimeControl> current = timeControl.getHead();
 		while( current != null && !current.getElement().getPlayerName().equals(player.getName())){
