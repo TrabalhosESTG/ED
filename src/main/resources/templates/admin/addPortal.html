@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Adicionar Portal</h1>
+	<form action="submit_portal.php" method="post">
+		<label for="id">ID:</label>
+		<input type="text" id="id" name="id" required>
+		<br><br>
+		<label for="name">Nome:</label>
+		<input type="text" id="name" name="name" required>
+		<br><br>
+		<label for="max_energy">Energia Maxima:</label>
+		<input type="number" id="max_energy" name="max_energy" required>
+		<br><br>
+		<label for="energy">Energia:</label>
+		<input type="number" id="energy" name="energy" required>
+		<br><br>
+		<label for="latitude">Latitude:</label>
+		<input type="text" id="latitude" name="latitude" required>
+		<br><br>
+		<label for="longitude">Longitude:</label>
+		<input type="text" id="longitude" name="longitude" required>
+		<br><br>
+		<input type="submit" value="Adicionar Portal">
+	  </form>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js" integrity="sha512-nO7wgHUoWPYGCNriyGzcFwPSF+bPDOR+NvtOYy2wMcWkrnCNPKBcFEkU80XIN14UVja0Gdnff9EmydyLlOL7mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		// Captura o evento de envio do formulário
+		var form = document.querySelector("form");
+		form.addEventListener("submit", processForm);
+
+		function processForm(event) {
+		event.preventDefault();
+		var nome = document.querySelector("#name").value;
+		var id = document.querySelector("#id").value;
+		var max_energy = document.querySelector("#max_energy").value;
+		var energy = document.querySelector("#energy").value;
+		var latitude = document.querySelector("#latitude").value;
+		var longitude = document.querySelector("#longitude").value;
+
+		$.post("portals/create?id=" + id
+			+ "&name=" + nome
+			+ "&maxEnergy=" + max_energy
+			+ "&energy=" +  energy
+			+ "&latitude=" + longitude
+			+ "&longitude=" + latitude, function( data ) {
+			alert("Portal criado Id:" + data);
+		});
+		}
+	</script>
+</body>
+</html>
