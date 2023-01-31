@@ -4,23 +4,27 @@ import Lists.LinearNode;
 import Lists.LinkedList;
 
 public class Portal {
+	protected int id;
 	protected Player player;
 	protected String name;
 	protected String conquererPlayer;
 	protected String conquererTeam;
-	protected double energy;
+	protected int energy;
 	protected int maxEnergy;
 	protected double latitude;
 	protected double longitude;
 	protected LinkedList<ConnectorControl> connectorControl = new LinkedList<ConnectorControl>();
 	protected LinkedList<PortalControl> portalControl = new LinkedList<PortalControl>();
 
-	public Portal(String name, int maxEnergy) {
+	public Portal(int id, String name, int maxEnergy, int energy, double latitude, double longitude) {
+		this.id = id;
 		this.name = name;
 		this.conquererPlayer = "None";
 		this.conquererTeam = "None";
-		this.energy = 0;
+		this.energy = energy;
 		this.maxEnergy = maxEnergy;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public void setPlayer(Player player) {
@@ -48,8 +52,11 @@ public class Portal {
 	public String getConquererTeam() {
 		return this.conquererTeam;
 	}
+	public int setEnergy() {
+		return this.energy;
+	}
 
-	public double getEnergy() {
+	public int getEnergy() {
 		return this.energy;
 	}
 
@@ -151,7 +158,7 @@ public class Portal {
 	public void addPortal(Portal portal, Double weight){
 		portalControl.add(new PortalControl(portal, weight));
 	}
-	
+
 	public void removeConnector(Connector connector){
 		LinearNode<ConnectorControl> current = connectorControl.getHead();
 		while(current != null && !current.getElement().getConnector().equals(connector)){
