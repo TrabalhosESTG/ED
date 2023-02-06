@@ -4,11 +4,11 @@ Adicionar, editar e remover conectores ☑️
 
 Adicionar, editar e remover portais ☑️
 
-Adicionar última interação do jogador com o conector 
+Adicionar última interação do jogador com o conector ☑️
 
 Listar portais ordenados por determinado parâmetro 
 
-Listar conectores ordenados por determinado parâmetro
+Listar conectores ordenados por determinado parâmetro 
 
 Importar ficheiro JSON com informações de portais
 
