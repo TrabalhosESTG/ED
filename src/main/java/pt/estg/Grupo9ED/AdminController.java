@@ -24,4 +24,9 @@ public class AdminController {
 	public String addJSON() {
 		return "admin/addJSON";
 	}
+
+	@GetMapping("/admin/getConnectors")
+	public String getConnectors() {
+		return "admin/getConnectors";
+	}
 }

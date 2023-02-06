@@ -1,5 +1,6 @@
 package pt.estg.Grupo9ED;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ public class PortalsConnectors {
 		@RequestParam(value = "energy", defaultValue = "100") int energy,
 		@RequestParam(value = "latitude", defaultValue = "0") double latitude,
 		@RequestParam(value = "longitude", defaultValue = "0") double longitude) {
-		Portal portal = new Portal(id,name, maxEnergy, energy, latitude, longitude);
+		Portal portal = new Portal(id,name, latitude, longitude, maxEnergy, energy);
 		map.addPortal(portal);
 		return portal.getEnergy(); //retornar id do portal
 	}
@@ -33,11 +34,12 @@ public class PortalsConnectors {
 		@RequestParam(value = "energy", defaultValue = "100") int energy,
 		@RequestParam(value = "latitude", defaultValue = "0") double latitude,
 		@RequestParam(value = "longitude", defaultValue = "0") double longitude) {
-		Connector connector = new Connector(id,name, cooldown, energy, latitude, longitude);
+		Connector connector = new Connector(id,name, latitude, longitude, cooldown, energy);
 		map.addConnector(connector);
 		return connector.getEnergy(); //retornar id do portal
 	}
 
+	@GetMapping("/admin/connectors/get")
 	public String getConnectorsTable(){
 		String str = "<table>";
 		Connector[] conectores =  map.getAllConnector();

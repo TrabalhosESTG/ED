@@ -1,23 +1,25 @@
 package API;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Exceptions.InvalidValue;
 import Lists.Network;
 
-public class Map extends Network<String>{
+public class Map extends Network<Local>{
 	protected int count;
-	protected Network<Local> network = new Network();
 
 	public Map() {
 		count = 0;
 	}
 
 	public  void addPortal(Portal portal) {
-		network.addVertex(portal);
+		addVertex(portal);
 		count++;
 	}
 
 	public  void addConnector(Connector connector) {
-		network.addVertex(connector);
+		addVertex(connector);
 		count++;
 	}
 
@@ -63,61 +65,59 @@ public class Map extends Network<String>{
 }
 
 	public void removePortal(Portal portal) {
-        network.removeVertex(portal);
+        removeVertex(portal);
 		count--;
     }
 
 	public void removeConnector(Connector connector) {
-		network.removeVertex(connector);
+		removeVertex(connector);
 		count--;
 	}
 
 	public void addPConnection(Portal portal1, Portal portal2, double weight) {
-		network.addEdge(portal1, portal2, weight);
+		addEdge(portal1, portal2, weight);
 		portal1.addPortal(portal2, weight);
 		portal2.addPortal(portal1, weight);
 	}
 
 	public void addCConnection(Connector connector1, Connector connector2, double weight) {
-		network.addEdge(connector1, connector2, weight);
+		addEdge(connector1, connector2, weight);
 		connector1.addConnector(connector2, weight);
 		connector2.addConnector(connector1, weight);
 	}
 
 	public void addPCConnection(Portal portal, Connector connector, double weight) {
-		network.addEdge(portal, connector, weight);
+		addEdge(portal, connector, weight);
 		portal.addConnector(connector, weight);
 		connector.addPortal(portal, weight);
 	}
 
 	public void removePConnection(Portal portal1, Portal portal2) {
-		network.removeEdge(portal1, portal2);
+		removeEdge(portal1, portal2);
 		portal1.removePortal(portal2);
 		portal2.removePortal(portal1);
 	}
 
 	public void removeCConnection(Connector connector1, Connector connector2) {
-		network.removeEdge(connector1, connector2);
+		removeEdge(connector1, connector2);
 		connector1.removeConnector(connector2);
 		connector2.removeConnector(connector1);
 	}
 
 	public void removePCConnection(Portal portal, Connector connector) {
-		network.removeEdge(portal, connector);
+		removeEdge(portal, connector);
 		portal.removeConnector(connector);
 		connector.removePortal(portal);
 	}
 
 	public Connector[] getAllConnector(){
-		Connector[] connectors = new Connector[count];
-		int i = 0;
-		for(Object o : network.getAllVertex()){
-			if(o instanceof Connector){
-				connectors[i] = (Connector) o;
-				i++;
+		List<Connector> connectorList = new ArrayList<>();
+		for (Local local : this.vertices) {
+			if (local instanceof Connector) {
+				connectorList.add((Connector) local);
 			}
 		}
-		return connectors;
+		return connectorList.toArray(new Connector[connectorList.size()]);
 	}
 
 }
