@@ -1,12 +1,11 @@
 package API;
 
 import Exceptions.InvalidValue;
-import Interfaces.NetworkADT;
 import Lists.Network;
 
 public class Map extends Network<String>{
 	protected int count;
-	protected NetworkADT network = new Network();
+	protected Network<Local> network = new Network();
 	
 	public Map() {
 		count = 0;
