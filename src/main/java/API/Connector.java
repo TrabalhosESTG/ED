@@ -4,58 +4,16 @@ import java.sql.Time;
 import Lists.LinearNode;
 import Lists.LinkedList;
 
-public class Connector {
-	protected int id;
-	protected Player player;
-	protected String name;
-	protected int energy;
+public class Connector extends Local{
 	protected int cooldown;
-	protected double latitude;
-	protected double longitude;
 	protected LinkedList<TimeControl> timeControl = new LinkedList<TimeControl>();
-	protected LinkedList<ConnectorControl> connectorControl = new LinkedList<ConnectorControl>();
-	protected LinkedList<PortalControl> portalControl = new LinkedList<PortalControl>();
 
-
-
-	public Connector(int id, String name, int cooldown, int energy, Double latitude, Double longitude) {
-		this.id = id;
-		this.name = name;
+	public Connector(int id, String name, Double latitude, Double longitude, int cooldown, int energy) {
+		super(id, name, latitude, longitude);
 		this.cooldown = cooldown;
 		this.energy = energy;
-		this.latitude = latitude;
-		this.longitude = longitude;
 	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public void setEnergy(int energy) {
-		this.energy = energy;
-	}
-
-	public int getEnergy() {
-		return energy;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-
+	
 	public void loadPlayerEnergy(){
 		LinearNode<TimeControl> current = timeControl.getHead();
 		while( current != null && !current.getElement().getPlayerName().equals(player.getName())){

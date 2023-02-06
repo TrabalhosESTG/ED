@@ -1,34 +1,25 @@
 package API;
 
 import Lists.LinearNode;
-import Lists.LinkedList;
 
-public class Portal {
-	protected int id;
-	protected Player player;
-	protected String name;
+public class Portal extends Local{
 	protected String conquererPlayer;
 	protected String conquererTeam;
-	protected int energy;
 	protected int maxEnergy;
-	protected double latitude;
-	protected double longitude;
-	protected LinkedList<ConnectorControl> connectorControl = new LinkedList<ConnectorControl>();
-	protected LinkedList<PortalControl> portalControl = new LinkedList<PortalControl>();
 
-	public Portal(int id, String name, int maxEnergy, int energy, double latitude, double longitude) {
-		this.id = id;
-		this.name = name;
+	public Portal(int id, String name, double latitude, double longitude, int maxEnergy, int energy) {
+		super(id, name, latitude, longitude);
 		this.conquererPlayer = "None";
 		this.conquererTeam = "None";
 		this.energy = energy;
 		this.maxEnergy = maxEnergy;
-		this.latitude = latitude;
-		this.longitude = longitude;
 	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
+	public Portal(int id, String name, double latitude, double longitude, int maxEnergy) {
+		super(id, name, latitude, longitude);
+		this.conquererPlayer = "None";
+		this.conquererTeam = "None";
+		this.energy = 0;
+		this.maxEnergy = maxEnergy;
 	}
 
 	public void loadEnergy(double energy) {
@@ -36,10 +27,6 @@ public class Portal {
 		if (this.energy > this.maxEnergy) {
 			this.energy = this.maxEnergy;
 		}
-	}
-
-	public String getName() {
-		return this.name;
 	}
 
 	public void setMaxEnergy(int maxEnergy) {
@@ -51,13 +38,6 @@ public class Portal {
 
 	public String getConquererTeam() {
 		return this.conquererTeam;
-	}
-	public int setEnergy() {
-		return this.energy;
-	}
-
-	public int getEnergy() {
-		return this.energy;
 	}
 
 	public int getMaxEnergy() {
@@ -79,22 +59,6 @@ public class Portal {
 	public void reset() {
 		this.conquererPlayer = "None";
 		this.conquererTeam = "None";
-	}
-
-	public double getLongitude(){
-		return longitude;
-	}
-
-	public double getLatitude(){
-		return latitude;
-	}
-
-	public void setLongitude(double longitude){
-		this.longitude = longitude;
-	}
-
-	public void setLatitude(double latitude){
-		this.latitude = latitude;
 	}
 
 	public void askToLoadEnergy() {
