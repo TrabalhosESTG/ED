@@ -441,4 +441,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 		vertices = largerVertices;
 		adjMatrix = largerAdjMatrix;
 	}
+
+	public T[] getAllVertex(){
+		return vertices;
+	}
 }

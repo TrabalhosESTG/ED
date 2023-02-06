@@ -18,6 +18,10 @@ public class AdminController {
 	@GetMapping("/admin/addPortal")
 	public String addPortal() {
 		return "admin/addPortal";
+	}
 
+	@GetMapping("/admin/addJSON")
+	public String addJSON() {
+		return "admin/addJSON";
 	}
 }

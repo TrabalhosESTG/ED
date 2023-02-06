@@ -6,7 +6,7 @@ import Lists.Network;
 public class Map extends Network<String>{
 	protected int count;
 	protected Network<Local> network = new Network();
-	
+
 	public Map() {
 		count = 0;
 	}
@@ -21,26 +21,26 @@ public class Map extends Network<String>{
 		count++;
 	}
 
-	
+
 	public void editPortal(Portal portal, double latitude, double longitude, int maxEnergy) throws InvalidValue {
 		if(latitude < -90 || latitude > 90){
 			throw new InvalidValue("Latitude fora dos limites");
 		}else{
 			portal.setLatitude(latitude);
 		}
-			
+
 		if(longitude < -180 || longitude > 180){
 			throw new InvalidValue("Longitude fora dos limites");
 		}else{
 			portal.setLongitude(longitude);
 		}
-		
+
 		if(maxEnergy >= 0){
 			portal.setMaxEnergy(maxEnergy);
 		}else{
 			throw new InvalidValue("Energia não pode ser negativa");
 		}
-   }	
+   }
 
    public void editConnector(Connector connector, double latitude, double longitude, int energy) throws InvalidValue {
 	if(latitude < -90 || latitude > 90){
@@ -48,13 +48,13 @@ public class Map extends Network<String>{
 	}else{
 		connector.setLatitude(latitude);
 	}
-		
+
 	if(longitude < -180 || longitude > 180){
 		throw new InvalidValue("Longitude fora dos limites");
 	}else{
 		connector.setLongitude(longitude);
 	}
-	
+
 	if(energy >= 0){
 		connector.setEnergy(energy);
 	}else{
@@ -108,6 +108,16 @@ public class Map extends Network<String>{
 		connector.removePortal(portal);
 	}
 
-
+	public Connector[] getAllConnector(){
+		Connector[] connectors = new Connector[count];
+		int i = 0;
+		for(Object o : network.getAllVertex()){
+			if(o instanceof Connector){
+				connectors[i] = (Connector) o;
+				i++;
+			}
+		}
+		return connectors;
+	}
 
 }

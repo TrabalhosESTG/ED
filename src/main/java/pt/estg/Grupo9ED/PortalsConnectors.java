@@ -37,4 +37,14 @@ public class PortalsConnectors {
 		map.addConnector(connector);
 		return connector.getEnergy(); //retornar id do portal
 	}
+
+	public String getConnectorsTable(){
+		String str = "<table>";
+		Connector[] conectores =  map.getAllConnector();
+		for (Connector connector : conectores) {
+			str += connector.getConnectorRow();
+		}
+		str += "</table>";
+		return str;
+	}
 }

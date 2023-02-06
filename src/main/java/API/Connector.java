@@ -63,5 +63,17 @@ public class Connector extends Local{
 			portalControl.remove(current.getElement());
 		}
 	}
+
+	public String getConnectorRow(){
+		String row = "<tr>"+
+			"<td>" + id +"</td>" +
+			"<td>" + name + "</td>" +
+			"<td>" + energy + "</td>" +
+			"<td>" + cooldown + "</td>" +
+			"<td>" + latitude + "</td>" +
+			"<td>" + longitude + "</td>" +
+		"</tr>";
+		return row;
+	}
 }
 
