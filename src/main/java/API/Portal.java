@@ -54,6 +54,7 @@ public class Portal extends Local{
 	public void conquer() {
 		this.conquererPlayer = player.getName();
 		this.conquererTeam = player.getTeam();
+		player.setConqueredPortal();
 	}
 
 	public void reset() {
@@ -120,7 +121,7 @@ public class Portal extends Local{
 	}
 
 	public void addPortal(Portal portal, Double weight){
-		portalControl.add(new PortalControl(portal, weight));
+		portalControl.add(new LocalControl(portal, weight));
 	}
 
 	public void removeConnector(Connector connector){
@@ -134,7 +135,7 @@ public class Portal extends Local{
 	}
 
 	public void removePortal(Portal portal){
-		LinearNode<PortalControl> current = portalControl.getHead();
+		LinearNode<LocalControl> current = portalControl.getHead();
 		while(current != null && !current.getElement().getPortal().equals(portal)){
 			current = current.getNext();
 		}

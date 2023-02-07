@@ -12,6 +12,7 @@ public class Player {
 	protected int id;
 	protected double latitude;
 	protected double longitude;
+	protected int conqueredPortals;
 
 	public Player(String name, int id) {
 		this.name = name;
@@ -21,6 +22,7 @@ public class Player {
 		this.energy = 100;
 		this.totalEnergy = 100;
 		this.id = id;
+		this.conqueredPortals = 0;
 	}
 
 	public Player(String name, String team, int id) {
@@ -31,6 +33,20 @@ public class Player {
 		this.energy = 100;
 		this.totalEnergy = 100;
 		this.id = id;
+		this.conqueredPortals = 0;
+	}
+
+	public Player(String name, int level, String team, double exp, double energy, int totalEnergy, int id, double latitude, double longitude, int conqueredPortals) {
+		this.name = name;
+		this.level = level;
+		this.team = team;
+		this.exp = exp;
+		this.energy = energy;
+		this.totalEnergy = totalEnergy;
+		this.id = id;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.conqueredPortals = conqueredPortals;
 	}
 
 	public void levelUp() {
@@ -60,6 +76,14 @@ public class Player {
 		if (this.exp >= 100) {
 			levelUp();
 		}
+	}
+
+	public void setConqueredPortal() {
+		this.conqueredPortals++;
+	}
+
+	public int getConqueredPortal() {
+		return this.conqueredPortals;
 	}
 
 	public String getName() {
