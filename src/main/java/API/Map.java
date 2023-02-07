@@ -5,7 +5,7 @@ import Lists.Network;
 
 public class Map extends Network<Local>{
 	protected int count;
-	
+
 	public Map() {
 		count = 0;
 	}
@@ -14,20 +14,20 @@ public class Map extends Network<Local>{
 		addVertex(local);
 		count++;
 	}
-	
+
 	public void editLocal(Local local, double latitude, double longitude, int maxEnergy) throws InvalidValue {
 		if(latitude < -90 || latitude > 90){
 			throw new InvalidValue("Latitude fora dos limites");
 		}else{
 			local.setLatitude(latitude);
 		}
-			
+
 		if(longitude < -180 || longitude > 180){
 			throw new InvalidValue("Longitude fora dos limites");
 		}else{
 			local.setLongitude(longitude);
 		}
-		
+
 		if(maxEnergy >= 0){
 			if(local.getType().equals("Portal")){
 				local.setMaxEnergy(maxEnergy);
@@ -55,7 +55,4 @@ public class Map extends Network<Local>{
 		local1.removeLocalControl(local2);
 		local2.removeLocalControl(local1);
 	}
-
-
-
 }

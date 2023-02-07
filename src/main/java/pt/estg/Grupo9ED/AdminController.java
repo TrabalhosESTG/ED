@@ -14,10 +14,15 @@ public class AdminController {
 	@GetMapping("/admin/createConnector")
 	public String createConnector() {
 		return "admin/addConnector";
-}
+	}
+
 	@GetMapping("/admin/addPortal")
 	public String addPortal() {
 		return "admin/addPortal";
+	}
 
+	@GetMapping("/admin/importLocalsJson")
+	public String importLocalsJson() {
+		return "admin/importLocalsJson";
 	}
 }
