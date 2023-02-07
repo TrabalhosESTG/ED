@@ -22,7 +22,7 @@ Criar rotas entre portais e conectores
 
 Remover rotas entre portais e conectores 
 
-Importar ficheiro JSON com informações das rotas entre portais e conectores
+Importar ficheiro JSON com informações das rotas entre portais e conectores☑️
 
 Exportar ficheiro JSON com informações das rotas entre prtais e conectores
 
@@ -40,7 +40,7 @@ Calcular o caminho mais curto entre 2 pontos a passar obrigatóriamente num loca
 
 Exportar JSON com informação relativa ao caminho mais curto 
 
-Importar ficheiro JSON com configurações do jogo
+Importar ficheiro JSON com configurações do jogo☑️
 
 Exportar ficheiro JSON com as configurações do jogo
 
