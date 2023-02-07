@@ -12,12 +12,6 @@ public class Map extends Network<Local>{
 	}
 
 	public void addLocal(Local local) {
-		for(Local l : this.vertices){
-			if(l.getLatitude() == local.getLatitude() && l.getLongitude()==local.getLongitude()){
-				System.out.println("Já existe um local com estas coordenadas");
-				return;
-			}
-		}
 		addVertex(local);
 		count++;
 	}
