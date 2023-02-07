@@ -54,6 +54,7 @@ public class Portal extends Local{
 	public void conquer() {
 		this.conquererPlayer = player.getName();
 		this.conquererTeam = player.getTeam();
+		player.setConqueredPortal();
 	}
 
 	public void reset() {

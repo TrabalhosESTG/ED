@@ -64,4 +64,56 @@ public class PlayerLinkedList {
 		}
 		return obj.toJSONString();
 	}
+
+	// ordenar os jogadores por nível
+	public void sortPlayersByLevel() {
+		LinearNode<Player> current = playerList.getHead();
+		LinearNode<Player> next = current.getNext();
+		while (current != null) {
+			while (next != null) {
+				if (current.getElement().getLevel() < next.getElement().getLevel()) {
+					Player temp = current.getElement();
+					current.setElement(next.getElement());
+					next.setElement(temp);
+				}
+				next = next.getNext();
+			}
+			current = current.getNext();
+			next = current.getNext();
+		}
+		printPlayers();
+	}
+
+	// ordenar os jogadores por portais conquistados
+	public void sortPlayersByPortals() {
+		LinearNode<Player> current = playerList.getHead();
+		LinearNode<Player> next = current.getNext();
+		while (current != null) {
+			while (next != null) {
+				if (current.getElement().conqueredPortals < next.getElement().getConqueredPortal()) {
+					Player temp = current.getElement();
+					current.setElement(next.getElement());
+					next.setElement(temp);
+				}
+				next = next.getNext();
+			}
+			current = current.getNext();
+			next = current.getNext();
+		}
+		printPlayers();
+	}
+
+	public void printPlayers() {
+		if (playerList.isEmpty()) {
+			System.out.println("There are no players");
+			return;
+		} else {
+			LinearNode<Player> current = playerList.getHead();
+			while (current != null) {
+				System.out.println(current.getElement().getName());
+				current = current.getNext();
+			}
+		}
+	}
+
 }
