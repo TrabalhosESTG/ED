@@ -30,7 +30,7 @@ Adicionar, atualizar e remover jogadores ☑️
 
 Listar jogadores por equipa, por nível e por número de portais atualmente conquistados 
 
-Importar ficheiro JSON com informações de jogadores 
+Importar ficheiro JSON com informações de jogadores ☑️
 
 Exportar ficheiro JSON com informações de jogadores ☑️
 
