@@ -441,4 +441,23 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 		vertices = largerVertices;
 		adjMatrix = largerAdjMatrix;
 	}
+
+	public int[] returnShortestPath(int startIndex, int targetIndex) {
+		if (!indexIsValid(startIndex) || !indexIsValid(targetIndex)) {
+			System.out.println("Invalid index");
+			return null;
+		}
+		Iterator<Integer> it = iteratorShortestPathIndices(startIndex, targetIndex);
+		int[] path = new int[vertices.length];
+		int i = 0;
+		if (it.hasNext()) {
+			path[i] = (it.next()).intValue();
+			i++;
+		}
+		while (it.hasNext()) {
+			path[i] = (it.next()).intValue();
+			i++;
+		}
+		return path;
+	}
 }

@@ -1,6 +1,7 @@
 package API;
 
 import Exceptions.InvalidValue;
+import Lists.ArrayUnorderedList;
 import Lists.Network;
 
 public class Map extends Network<Local>{
@@ -94,5 +95,43 @@ public class Map extends Network<Local>{
 			}
 		}
 		return portals;
+	}
+
+	//ordena os locais por ordem crescente de id
+	public Local[] orderLocalsById(String type){
+		Local[] locals = new Local[count];
+		if(type.equals("Connector")){
+			locals = getAllConnectors();
+		}else{
+			locals = getAllPortals();
+		}
+		for (int j = 0; j < locals.length; j++) {
+			for (int k = 0; k < locals.length; k++) {
+				if(locals[j].getId() < locals[k].getId()){
+					Local aux = locals[j];
+					locals[j] = locals[k];
+					locals[k] = aux;
+				}
+			}
+		}
+		return locals;
+	}
+
+	//Calcular o caminho mais curto entre 2 pontos a passar obrigatóriamente num local
+	public String shortestPathBetweenAnother(Local local1, Local local2, Local local3) {
+		String ret = "<h1>";
+		double path1 = shortestPathWeight(getIndex(local1), getIndex(local3));
+		double path2 = shortestPathWeight(getIndex(local3), getIndex(local2));
+		int[] path = returnShortestPath(getIndex(local1), getIndex(local3));
+		for (int i = 0; i < path.length; i++) {
+			ret += this.vertices[path[i]].getId() + " -> ";
+		}
+		path = returnShortestPath(getIndex(local3), getIndex(local2));
+		for (int i = 0; i < path.length; i++) {
+			ret += this.vertices[path[i]].getId() + " -> " ;
+		}
+		ret += "</h1>";
+		ret += "<h2>Distância total: " + (path1 + path2) + "</h2>";
+		return ret;
 	}
 }
