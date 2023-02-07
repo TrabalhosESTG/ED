@@ -10,9 +10,9 @@ Listar portais ordenados por determinado parâmetro
 
 Listar conectores ordenados por determinado parâmetro 
 
-Importar ficheiro JSON com informações de portais
+Importar ficheiro JSON com informações de portais ☑️
 
-Importar ficheiro JSON com informações de conectores 
+Importar ficheiro JSON com informações de conectores ☑️
 
 Exportar ficheiro JSON com informações de portais 
 
