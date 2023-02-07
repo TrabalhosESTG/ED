@@ -10,7 +10,13 @@ public class Map extends Network<Local>{
 		count = 0;
 	}
 
-	public  void addLocal(Local local) {
+	public void addLocal(Local local) {
+		for(Local l : this.vertices){
+			if(l.getLatitude() == local.getLatitude() && l.getLongitude()==local.getLongitude()){
+				System.out.println("Já existe um local com estas coordenadas");
+				return;
+			}
+		}
 		addVertex(local);
 		count++;
 	}
@@ -40,9 +46,9 @@ public class Map extends Network<Local>{
    }
 
 	public void removeLocal(Local local) {
-        removeVertex(local);
+		removeVertex(local);
 		count--;
-    }
+	}
 
 	public void addLocalConnection(Local local1, Local local2, double weight) {
 		addEdge(local1, local2, weight);
@@ -54,5 +60,39 @@ public class Map extends Network<Local>{
 		removeEdge(local1, local2);
 		local1.removeLocalControl(local2);
 		local2.removeLocalControl(local1);
+	}
+
+	public Local findLocalById(long id){
+		for (Local local : this.vertices){
+			if(local.getId() == id){
+				return local;
+			}
+		}
+		System.out.println("Não existe nenhum local com este id");
+		return null;
+	}
+
+	public Local[] getAllConnectors(){
+		Local[] connectors = new Local[count];
+		int i = 0;
+		for (Local local : this.vertices){
+			if(local.getType().equals("Connector")){
+				connectors[i] = local;
+				i++;
+			}
+		}
+		return connectors;
+	}
+
+	public Local[] getAllPortals(){
+		Local[] portals = new Local[count];
+		int i = 0;
+		for (Local local : this.vertices){
+			if(local.getType().equals("Portal")){
+				portals[i] = local;
+				i++;
+			}
+		}
+		return portals;
 	}
 }

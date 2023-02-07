@@ -4,17 +4,17 @@ import org.json.simple.JSONObject;
 
 public class Player {
 	protected String name;
-	protected int level;
+	protected long level;
 	protected String team;
 	protected double exp;
 	protected double energy;
-	protected int totalEnergy;
-	protected int id;
+	protected long totalEnergy;
+	protected long id;
 	protected double latitude;
 	protected double longitude;
-	protected int conqueredPortals;
+	protected long conqueredPortals;
 
-	public Player(String name, int id) {
+	public Player(String name, long id) {
 		this.name = name;
 		this.level = 1;
 		this.team = "None";
@@ -25,7 +25,7 @@ public class Player {
 		this.conqueredPortals = 0;
 	}
 
-	public Player(String name, String team, int id) {
+	public Player(String name, String team, long id) {
 		this.name = name;
 		this.level = 1;
 		this.team = team;
@@ -36,7 +36,7 @@ public class Player {
 		this.conqueredPortals = 0;
 	}
 
-	public Player(String name, int level, String team, double exp, double energy, int totalEnergy, int id, double latitude, double longitude, int conqueredPortals) {
+	public Player(String name, long level, String team, double exp, double energy, long totalEnergy, long id, double latitude, double longitude, long conqueredPortals) {
 		this.name = name;
 		this.level = level;
 		this.team = team;
@@ -82,7 +82,7 @@ public class Player {
 		this.conqueredPortals++;
 	}
 
-	public int getConqueredPortal() {
+	public long getConqueredPortal() {
 		return this.conqueredPortals;
 	}
 
@@ -90,11 +90,11 @@ public class Player {
 		return this.name;
 	}
 
-	public int getLevel() {
+	public long getLevel() {
 		return this.level;
 	}
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 	public String getTeam() {
@@ -109,7 +109,7 @@ public class Player {
 		return this.energy;
 	}
 
-	public int getTotalEnergy() {
+	public long getTotalEnergy() {
 		return this.totalEnergy;
 	}
 
