@@ -30,4 +30,9 @@ public class AdminController {
 	public String importPlayersJson() {
 		return "admin/importPlayersJson";
 	}
+
+	@GetMapping("/admin/importRoutesJson")
+	public String importRoutesJson() {
+		return "admin/importRoutesJson";
+	}
 }

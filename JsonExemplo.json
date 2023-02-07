@@ -1,0 +1,48 @@
+{
+	"locals": [
+		{
+			"id": 1414,
+			"type": "Portal",
+			"name": "Jacqueline Kennedy Onassis Reservoir",
+			"coordinates": {
+				"latitude": 40.7656918,
+				"longitude": -73.9737489
+			},
+			"gameSettings": {
+				"energy": 180,
+				"maxEnergy": 200,
+				"ownership": {
+					"player": "LoboMau"
+				}
+			}
+		},
+		{
+			"id": 5212,
+			"type": "Connector",
+			"coordinates": {
+				"latitude": 40.7697989,
+				"longitude": -73.9723702
+			},
+			"gameSettings": {
+				"energy": 110,
+				"cooldown": 3
+			}
+		}
+	],
+	"routes": [
+		{
+			"from": 1414,
+			"to": 5212,
+			"weight": 1
+		}
+	],
+	"players": [
+		{
+			"name": "LoboMau",
+			"team": "Sparks",
+			"level": 5,
+			"experiencePoints": 24998,
+			"currentEnergy": 70
+		}
+	]
+}
