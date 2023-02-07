@@ -97,4 +97,30 @@ public class PortalsConnectors {
 		}
 	}
 
+	@PostMapping("/admin/routes/jsonImport")
+	public String importRoutesJson(
+		@RequestParam(value = "json", defaultValue = "1") String jsonString){
+
+		JSONParser parser = new JSONParser();
+
+		try {
+			JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+			JSONArray routesArray = (JSONArray) jsonObject.get("routes");
+			int i = 0;
+			for (Object obj : routesArray) {
+				JSONObject route = (JSONObject) obj;
+				long from = (long) route.get("from");
+				long to = (long) route.get("to");
+				long weight = (long) route.get("weight");
+				i++;
+				Local de = map.findLocalById(from);
+				Local para = map.findLocalById(to);
+				map.addEdge(de, para, weight);
+			}
+			return "<h1>Importadas " + i + " rotas</h1>";
+		} catch (Exception e) {
+			return "<h1>Json Invalido</h1>";
+		}
+	}
+
 }
