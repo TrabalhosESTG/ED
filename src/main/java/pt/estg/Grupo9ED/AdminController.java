@@ -25,4 +25,9 @@ public class AdminController {
 	public String importLocalsJson() {
 		return "admin/importLocalsJson";
 	}
+
+	@GetMapping("/admin/importPlayersJson")
+	public String importPlayersJson() {
+		return "admin/importPlayersJson";
+	}
 }
