@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Exportar JSON players</title>
+    <title>Importar JSON players</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
@@ -15,7 +15,7 @@
 		$("button").click(function(){
 			var json = $("#JSON").val();
 			$.post("players/jsonImport", {json: json}, function( data ) {
-				$("#Resposta").html(data);
+				$("#Resposta").append(data);
 			});
 		});
 	</script>

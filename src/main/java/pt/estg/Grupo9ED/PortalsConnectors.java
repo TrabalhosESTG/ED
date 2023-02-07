@@ -91,9 +91,12 @@ public class PortalsConnectors {
 					k++;
 				}
 			}
-			return "<h1>Portals: " + i + "</h1><h1>Connectors: " + j + "</h1><h1>Invalid: " + k + "</h1>";
+			return "<h3>Portals: " + i + "</h3><h3>Connectors: " + j + "</h3><h3>Invalid: " + k + "</h3>";
 		} catch (ParseException e) {
-			return "<h1>Json Invalido</h1>";
+			return "<h3>Json Invalido</h3>";
+		} catch(Exception e)
+		{
+			return "<h3>Erro de servidor</h3>";
 		}
 	}
 
@@ -113,13 +116,16 @@ public class PortalsConnectors {
 				long to = (long) route.get("to");
 				long weight = (long) route.get("weight");
 				i++;
-				Local de = map.findLocalById(from);
+				Local de = (Local) map.findLocalById(from);
 				Local para = map.findLocalById(to);
 				map.addEdge(de, para, weight);
 			}
-			return "<h1>Importadas " + i + " rotas</h1>";
-		} catch (Exception e) {
-			return "<h1>Json Invalido</h1>";
+			return "<h3>Importadas " + i + " rotas</h3>";
+		} catch (ParseException e) {
+			return "<h3>Json Invalido</h3>";
+		} catch(Exception e)
+		{
+			return "<h3>Erro de servidor</h3>";
 		}
 	}
 
