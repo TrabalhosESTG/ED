@@ -134,4 +134,16 @@ public class Map extends Network<Local>{
 		ret += "<h2>Distância total: " + (path1 + path2) + "</h2>";
 		return ret;
 	}
+
+	public String shortestPath(Local local1, Local local2) {
+		String ret = "<h1>";
+		double path = shortestPathWeight(getIndex(local1), getIndex(local2));
+		int[] path2 = returnShortestPath(getIndex(local1), getIndex(local2));
+		for (int i = 0; i < path2.length; i++) {
+			ret += this.vertices[path2[i]].getId() + " -> ";
+		}
+		ret += "</h1>";
+		ret += "<h2>Distância total: " + path + "</h2>";
+		return ret;
+	}
 }
