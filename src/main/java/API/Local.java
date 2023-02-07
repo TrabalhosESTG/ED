@@ -26,8 +26,8 @@ public class Local {
         this.longitude = longitude;
         this.energy = energy;
         this.maxEnergy = maxEnergy;
-        this.conquererPlayer = conquererPlayer;
-        this.conquererTeam = conquererTeam;
+		this.conquererPlayer = conquererPlayer;
+		this.conquererTeam = conquererTeam;
     }
 
     public Local(int id, String type, String name, double latitude, double longitude, int energy, int cooldown) {
@@ -40,6 +40,10 @@ public class Local {
         this.cooldown = cooldown;
     }
 
+	public int getId()
+	{
+		return this.id;
+	}
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -47,7 +51,7 @@ public class Local {
     public Player getPlayer() {
         return this.player;
     }
-    
+
     public void setEnergy(int energy) {
         this.energy = energy;
     }

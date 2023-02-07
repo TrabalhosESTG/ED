@@ -4,9 +4,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import API.Connector;
+import API.Local;
 import API.Map;
-import API.Portal;
 
 @RestController
 public class PortalsConnectors {
@@ -20,9 +19,9 @@ public class PortalsConnectors {
 		@RequestParam(value = "energy", defaultValue = "100") int energy,
 		@RequestParam(value = "latitude", defaultValue = "0") double latitude,
 		@RequestParam(value = "longitude", defaultValue = "0") double longitude) {
-		Portal portal = new Portal(id,name, maxEnergy, energy, latitude, longitude);
-		map.addPortal(portal);
-		return portal.getEnergy(); //retornar id do portal
+		Local local = new Local(id,"Portal", name,  latitude, longitude, energy, maxEnergy,null, null);
+		map.addLocal(local);
+		return local.getId(); //retornar id do portal
 	}
 
 	@PostMapping("/admin/connectors/create")
@@ -33,8 +32,8 @@ public class PortalsConnectors {
 		@RequestParam(value = "energy", defaultValue = "100") int energy,
 		@RequestParam(value = "latitude", defaultValue = "0") double latitude,
 		@RequestParam(value = "longitude", defaultValue = "0") double longitude) {
-		Connector connector = new Connector(id,name, cooldown, energy, latitude, longitude);
-		map.addConnector(connector);
-		return connector.getEnergy(); //retornar id do portal
+		Local local = new Local(id, "Connector", name, latitude, longitude, energy, cooldown);
+		map.addLocal(local);
+		return local.getId(); //retornar id do portal
 	}
 }
