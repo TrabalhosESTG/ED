@@ -20,4 +20,9 @@ public class AdminController {
 	public String addPortal() {
 		return "admin/addPortal";
 	}
+
+	@GetMapping("/admin/importLocalsJson")
+	public String importLocalsJson() {
+		return "admin/importLocalsJson";
+	}
 }

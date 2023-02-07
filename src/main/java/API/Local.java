@@ -4,21 +4,21 @@ import Lists.LinearNode;
 import Lists.LinkedList;
 
 public class Local {
-    protected int id;
+    protected long id;
     protected String type;
     protected String name;
-    protected int energy;
+    protected long energy;
     protected Player player;
     protected double latitude;
     protected double longitude;
     protected String conquererPlayer;
 	protected String conquererTeam;
-	protected int maxEnergy;
-    protected int cooldown;
+	protected long maxEnergy;
+    protected long cooldown;
     protected LinkedList<LocalControl> LocalControl = new LinkedList<LocalControl>();
     protected LinkedList<TimeControl> timeControl = new LinkedList<TimeControl>();
 
-    public Local(int id, String type, String name, double latitude, double longitude, int energy, int maxEnergy, String conquererPlayer, String conquererTeam) {
+    public Local(long id, String type, String name, double latitude, double longitude, long energy, long maxEnergy, String conquererPlayer, String conquererTeam) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -30,7 +30,7 @@ public class Local {
 		this.conquererTeam = conquererTeam;
     }
 
-    public Local(int id, String type, String name, double latitude, double longitude, int energy, int cooldown) {
+    public Local(long id, String type, String name, double latitude, double longitude, long energy, long cooldown) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -40,7 +40,7 @@ public class Local {
         this.cooldown = cooldown;
     }
 
-	public int getId()
+	public long getId()
 	{
 		return this.id;
 	}
@@ -56,7 +56,7 @@ public class Local {
         this.energy = energy;
     }
 
-    public int getEnergy() {
+    public long getEnergy() {
         return this.energy;
     }
 
@@ -142,7 +142,7 @@ public class Local {
 		return this.conquererTeam;
 	}
 
-	public int getMaxEnergy() {
+	public long getMaxEnergy() {
 		return this.maxEnergy;
 	}
 
