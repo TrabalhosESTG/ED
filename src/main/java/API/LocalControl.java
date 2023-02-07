@@ -1,15 +1,15 @@
 package API;
 
-public class PortalControl {
-    protected Portal portal;
+public class LocalControl {
+    protected Local portal;
     protected double weight;
 
-    public PortalControl(Portal portal, double weight) {
+    public LocalControl(Local portal, double weight) {
         this.portal = portal;
         this.weight = weight;
     }
 
-    public Portal getPortal() {
+    public Local getLocal() {
         return portal;
     }
 
