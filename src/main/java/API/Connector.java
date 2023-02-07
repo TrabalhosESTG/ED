@@ -10,7 +10,7 @@ public class Connector extends Local{
 
 	public Connector(int id, String name, Double latitude, Double longitude, int cooldown, int energy) {
 		super(id, name, latitude, longitude);
-		this.cooldown = cooldown;
+		protected LinkedList<TimeControl> timeControl = new LinkedList<TimeControl>();
 		this.energy = energy;
 	}
 	
@@ -41,7 +41,7 @@ public class Connector extends Local{
 	}
 
 	public void addPortal(Portal portal, Double weight){
-		portalControl.add(new PortalControl(portal, weight));
+		portalControl.add(new LocalControl(portal, weight));
 	}
 
 	public void removeConnector(Connector connector){
@@ -55,7 +55,7 @@ public class Connector extends Local{
 	}
 
 	public void removePortal(Portal portal){
-		LinearNode<PortalControl> current = portalControl.getHead();
+		LinearNode<LocalControl> current = portalControl.getHead();
 		while(current != null && !current.getElement().getPortal().equals(portal)){
 			current = current.getNext();
 		}
