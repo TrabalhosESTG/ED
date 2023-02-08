@@ -1,24 +1,26 @@
 package API;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import Exceptions.InvalidValue;
 import Lists.ArrayUnorderedList;
+import Lists.LinearNode;
+import Lists.LinkedList;
 import Lists.Network;
 
 public class Map extends Network<Local>{
 	protected int count;
+	protected LinkedList<Local> locals;
 
 	public Map() {
-		count = 0;
+		this.count = 0;
+		this.locals = new LinkedList<Local>();
 	}
 
 	public void addLocal(Local local) {
-		for(Local l : this.vertices){
-			if(l.getLatitude() == local.getLatitude() && l.getLongitude()==local.getLongitude()){
-				System.out.println("Já existe um local com estas coordenadas");
-				return;
-			}
-		}
 		addVertex(local);
+		locals.add(local);
 		count++;
 	}
 
@@ -48,58 +50,78 @@ public class Map extends Network<Local>{
 
 	public void removeLocal(Local local) {
 		removeVertex(local);
+		locals.remove(local);
 		count--;
 	}
 
 	public void addLocalConnection(Local local1, Local local2, double weight) {
-		addEdge(local1, local2, weight);
+		addEdge(findIndexById(local1.getId()), findIndexById(local2.getId()), weight);
 		local1.addLocalControl(local2, weight);
 		local2.addLocalControl(local1, weight);
 	}
 
 	public void removeLocalConnection(Local local1, Local local2) {
-		removeEdge(local1, local2);
+		removeEdge(findIndexById(local1.getId()), findIndexById(local2.getId()));
 		local1.removeLocalControl(local2);
 		local2.removeLocalControl(local1);
 	}
 
 	public Local findLocalById(long id){
-		for (Local local : this.vertices){
-			if(local.getId() == id){
-				return local;
+		LinearNode<Local> current = this.locals.getHead();
+		while(current != null){
+			if(current.getElement().getId() == id){
+				return current.getElement();
 			}
+			current = current.getNext();
 		}
+
 		System.out.println("Não existe nenhum local com este id");
 		return null;
 	}
 
+	public int findIndexById(long id){
+		LinearNode<Local> current = this.locals.getHead();
+		for(int i = 0; i < count; i++){
+			if(current.getElement().getId() == id){
+				return i;
+			}
+			current = current.getNext();
+		}
+
+		System.out.println("Não existe nenhum local com este id");
+		return -1;
+	}
+
 	public Local[] getAllConnectors(){
 		Local[] connectors = new Local[count];
+		LinearNode<Local> current = this.locals.getHead();
 		int i = 0;
-		for (Local local : this.vertices){
-			if(local.getType().equals("Connector")){
-				connectors[i] = local;
+		while(current != null){
+			if(current.getElement().getType().equals("Connector")){
+				connectors[i] = current.getElement();
 				i++;
 			}
+			current = current.getNext();
 		}
 		return connectors;
 	}
 
 	public Local[] getAllPortals(){
 		Local[] portals = new Local[count];
+		LinearNode<Local> current = this.locals.getHead();
 		int i = 0;
-		for (Local local : this.vertices){
-			if(local.getType().equals("Portal")){
-				portals[i] = local;
+		while(current != null){
+			if(current.getElement().getType().equals("Portal")){
+				portals[i] = current.getElement();
 				i++;
 			}
+			current = current.getNext();
 		}
 		return portals;
 	}
 
-	//ordena os locais por ordem crescente de id
 	public Local[] orderLocalsById(String type){
-		Local[] locals = new Local[count];
+		Local[] locals;
 		if(type.equals("Connector")){
 			locals = getAllConnectors();
 		}else{
@@ -107,28 +129,30 @@ public class Map extends Network<Local>{
 		}
 		for (int j = 0; j < locals.length; j++) {
 			for (int k = 0; k < locals.length; k++) {
-				if(locals[j].getId() < locals[k].getId()){
+				if(locals[j] != null && locals[k] != null){
+					if(locals[j].getId() < locals[k].getId()){
 					Local aux = locals[j];
 					locals[j] = locals[k];
 					locals[k] = aux;
+				}
 				}
 			}
 		}
 		return locals;
 	}
 
-	//Calcular o caminho mais curto entre 2 pontos a passar obrigatóriamente num local
+
 	public String shortestPathBetweenAnother(Local local1, Local local2, Local local3) {
 		String ret = "<h1>";
-		double path1 = shortestPathWeight(getIndex(local1), getIndex(local3));
-		double path2 = shortestPathWeight(getIndex(local3), getIndex(local2));
-		int[] path = returnShortestPath(getIndex(local1), getIndex(local3));
+		double path1 = shortestPathWeight(findIndexById(local1.getId()), findIndexById(local3.getId()));
+		double path2 = shortestPathWeight(findIndexById(local3.getId()), findIndexById(local2.getId()));
+		int[] path = returnShortestPath(findIndexById(local1.getId()), findIndexById(local3.getId()));
 		for (int i = 0; i < path.length; i++) {
-			ret += this.vertices[path[i]].getId() + " -> ";
+			ret += getAllLocals()[path[i]].getId() + " -> ";
 		}
-		path = returnShortestPath(getIndex(local3), getIndex(local2));
+		path = returnShortestPath(findIndexById(local3.getId()), findIndexById(local2.getId()));
 		for (int i = 0; i < path.length; i++) {
-			ret += this.vertices[path[i]].getId() + " -> " ;
+			ret += getAllLocals()[path[i]].getId() + " -> " ;
 		}
 		ret += "</h1>";
 		ret += "<h2>Distância total: " + (path1 + path2) + "</h2>";
@@ -137,13 +161,49 @@ public class Map extends Network<Local>{
 
 	public String shortestPath(Local local1, Local local2) {
 		String ret = "<h1>";
-		double path = shortestPathWeight(getIndex(local1), getIndex(local2));
-		int[] path2 = returnShortestPath(getIndex(local1), getIndex(local2));
+		double path = shortestPathWeight(findIndexById(local1.getId()), findIndexById(local2.getId()));
+		int[] path2 = returnShortestPath(findIndexById(local1.getId()), findIndexById(local2.getId()));
 		for (int i = 0; i < path2.length; i++) {
-			ret += this.vertices[path2[i]].getId() + " -> ";
+			ret += getAllLocals()[path2[i]].getId() + " -> ";
 		}
 		ret += "</h1>";
 		ret += "<h2>Distância total: " + path + "</h2>";
 		return ret;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public Local[] getAllLocals(){
+		Local[] locals = new Local[count];
+		LinearNode<Local> current = this.locals.getHead();
+		int i = 0;
+		while(current != null){
+			locals[i] = current.getElement();
+			i++;
+			current = current.getNext();
+		}
+		return locals;
+	}
+
+	public JSONObject getRoutesJson(){
+		JSONObject obj = new JSONObject();
+		JSONArray array = new JSONArray();
+		obj.put("Routes", array);
+
+		LinearNode<Local> current = this.locals.getHead();
+		while(current !=  null){
+			LinearNode<LocalControl> current2 = current.getElement().getLocalControl().getHead();
+			while(current2 != null){
+				JSONObject newObj2 = new JSONObject();
+				newObj2.put("from", current.getElement().getId());
+				newObj2.put("to", current2.getElement().getLocal().getId());
+				newObj2.put("weight", current2.getElement().getWeight());
+				array.add(newObj2);
+				current2 = current2.getNext();
+			}
+		}
+		return obj;
 	}
 }

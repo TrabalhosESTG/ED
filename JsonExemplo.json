@@ -38,11 +38,32 @@
 	],
 	"players": [
 		{
-			"name": "LoboMau",
-			"team": "Sparks",
-			"level": 5,
-			"experiencePoints": 24998,
-			"currentEnergy": 70
+		   "id": 1,
+		  "name": "LoboMau",
+		  "team": "Sparks",
+		  "level": 5,
+		  "experiencePoints": 24998,
+		  "currentEnergy": 70,
+		  "totalEnergy": 46,
+		  "conqueredPortals": 1,
+		  "coordinates": {
+			"latitude": 40.7697989,
+			"longitude": -73.9723702
+		  }
+		},
+		{
+		  "id": 2,
+		  "name": "Lobobom",
+		  "team": "Sparks",
+		  "level": 5,
+		  "experiencePoints": 24998,
+		  "currentEnergy": 70,
+		  "totalEnergy": 46,
+		  "conqueredPortals": 1,
+		  "coordinates": {
+			"latitude": 40.7697989,
+			"longitude": -73.9723702
+		  }
 		}
-	]
+	  ]
 }

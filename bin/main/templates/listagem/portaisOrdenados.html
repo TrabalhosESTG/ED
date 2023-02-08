@@ -1,22 +1,16 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Importar JSON players</title>
+    <title>Portais ordenados por ID</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <h1>JSON com informações de todos os players: </h1>
-	<span id="Resposta"> </span>
-	<textarea id="JSON" rows="20" cols="100">
-	</textarea>
-	<button>Importar</button>
+    <h1>Portais ordenados por ID</h1>
+	<span id="listagem"></span>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js" integrity="sha512-nO7wgHUoWPYGCNriyGzcFwPSF+bPDOR+NvtOYy2wMcWkrnCNPKBcFEkU80XIN14UVja0Gdnff9EmydyLlOL7mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
-		$("button").click(function(){
-			var json = $("#JSON").val();
-			$.post("players/jsonImport", {json: json}, function( data ) {
-				$("#Resposta").append(data);
-			});
+		$.post("portaisOrderedID", function( data ) {
+			$("#listagem").html(data);
 		});
 	</script>
 </body>

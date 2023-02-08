@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import API.Local;
 import API.Player;
 import API.PlayerLinkedList;
 
@@ -24,7 +23,7 @@ public class Players {
 		return player.getId();
 	}
 
-	@GetMapping("/admin/players/list")
+	@GetMapping("/JSON/Players")
 	public String getPlayerList() {
 		return playerList.criarJSON();
 	}
@@ -56,9 +55,12 @@ public class Players {
 					playerList.addPlayer(newPlayer);
 					j++;
 				}
-				return "<h1>Players importados: " + j + "</h1>";
+				return "<h3>Players importados: " + j + "</h3>";
 			} catch (ParseException e) {
-				return "<h1>Json Invalido</h1>";
+				return "<h3>Json Invalido</h3>";
+			} catch(Exception e)
+			{
+				return "<h3>Erro de servidor</h3>";
 			}
 	}
 }

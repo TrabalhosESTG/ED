@@ -2,9 +2,9 @@ package pt.estg.Grupo9ED;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +41,29 @@ public class PortalsConnectors {
 		map.addLocal(local);
 		return local.getId(); //retornar id do portal
 	}
+
+	@PostMapping("/admin/addRota")
+	public String addRota(
+		@RequestParam(value = "id_de", defaultValue = "-1") long id_de,
+		@RequestParam(value = "id_para", defaultValue = "-1") long id_para,
+		@RequestParam(value = "peso", defaultValue = "1") long weight) {
+			if(map.findLocalById(id_de) == null || map.findLocalById(id_para) == null)
+				return "<h1> Rota não adicionada </h1>";
+			map.addLocalConnection(map.findLocalById(id_de), map.findLocalById(id_para), weight);
+			return "<h1> Rota adicionada com sucesso </h1>";
+		}
+
+		@PostMapping("/admin/removeRota")
+	public String removeRota(
+		@RequestParam(value = "id_de", defaultValue = "-1") long id_de,
+		@RequestParam(value = "id_para", defaultValue = "-1") long id_para){
+			if(map.findLocalById(id_de) == null || map.findLocalById(id_para) == null)
+				return "<h1> Rota não encontrada </h1>";
+			map.removeLocalConnection(map.findLocalById(id_de), map.findLocalById(id_para));
+			return "<h1> Rota adicionada com sucesso </h1>";
+		}
+
+
 
 	@PostMapping("/admin/locals/jsonImport")
 	public String importLocalsJson(
@@ -91,9 +114,9 @@ public class PortalsConnectors {
 					k++;
 				}
 			}
-			return "<h1>Portals: " + i + "</h1><h1>Connectors: " + j + "</h1><h1>Invalid: " + k + "</h1>";
+			return "<h3>Portals: " + i + "</h3><h3>Connectors: " + j + "</h3><h3>Invalid: " + k + "</h3>";
 		} catch (ParseException e) {
-			return "<h1>Json Invalido</h1>";
+			return "<h3>Json Invalido</h3>";
 		}
 	}
 
@@ -113,14 +136,75 @@ public class PortalsConnectors {
 				long to = (long) route.get("to");
 				long weight = (long) route.get("weight");
 				i++;
-				Local de = map.findLocalById(from);
-				Local para = map.findLocalById(to);
-				map.addEdge(de, para, weight);
+				map.addLocalConnection(map.findLocalById(from), map.findLocalById(to), weight);
 			}
-			return "<h1>Importadas " + i + " rotas</h1>";
-		} catch (Exception e) {
-			return "<h1>Json Invalido</h1>";
+			return "<h3>Importadas " + i + " rotas</h3>";
+		} catch (ParseException e) {
+			return "<h3>Json Invalido</h3>";
 		}
 	}
 
+	@PostMapping("/admin/map/getTable")
+	public String mapGetTable(){
+		String ret = "";
+		ret += map.getAllConnectors()[0].getName();
+		return ret;
+	}
+
+	@PostMapping("/listagem/connectorsOrderedID")
+	public String connectorsOrderedID(){
+		String ret = "<table><tr><th>ID</th><th>Nome</th><th>Latitude</th><th>Longitude</th><th>Energy</th></tr>";
+		for (Local connector : map.orderLocalsById("Connector")) {
+			if(connector != null)
+				ret += "<tr><td>" + connector.getId() + "</td><td>" + connector.getName() + "</td><td>" + connector.getLatitude() + "</td><td>" + connector.getLongitude() + "</td><td>" + connector.getEnergy() + "</td></tr>";
+		}
+		ret += "</table>";
+		return ret;
+	}
+
+	@PostMapping("/listagem/portaisOrderedID")
+	public String portaisOrderedID(){
+		String ret = "<table><tr><th>ID</th><th>Nome</th><th>Latitude</th><th>Longitude</th><th>Energy</th></tr>";
+		for (Local portal : map.orderLocalsById("Portal")) {
+			if(portal != null)
+				ret += "<tr><td>" + portal.getId() + "</td><td>" + portal.getName() + "</td><td>" + portal.getLatitude() + "</td><td>" + portal.getLongitude() + "</td><td>" + portal.getEnergy() + "</td></tr>";
+		}
+		ret += "</table>";
+		return ret;
+	}
+
+	@GetMapping("/JSON/locals")
+	public String jsonLocals() {
+		JSONObject ret = new JSONObject();
+		JSONArray localsArray = new JSONArray();
+		for (Local local : map.getAllLocals()) {
+			if (local != null) {
+				JSONObject localObject = new JSONObject();
+				localObject.put("id", local.getId());
+				localObject.put("type", local.getType());
+				localObject.put("name", local.getName());
+				JSONObject coordinates = new JSONObject();
+				coordinates.put("latitude", local.getLatitude());
+				coordinates.put("longitude", local.getLongitude());
+				localObject.put("coordinates", coordinates);
+				JSONObject gameSettings = new JSONObject();
+				if (local.getType().equals("Portal")) {
+					gameSettings.put("energy", local.getEnergy());
+					gameSettings.put("maxEnergy", local.getMaxEnergy());
+				} else if (local.getType().equals("Connector")) {
+					gameSettings.put("energy", local.getEnergy());
+					gameSettings.put("cooldown", 1);//local.getCooldown());
+				}
+				localObject.put("gameSettings", gameSettings);
+				localsArray.add(localObject);
+			}
+		}
+		ret.put("locals", localsArray);
+		return ret.toJSONString();
+	}
+
+	@GetMapping("/JSON/routes")
+	public String jsonRoutes() {
+		return map.getRoutesJson().toJSONString();
+	}
 }
