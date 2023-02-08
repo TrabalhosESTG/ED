@@ -2,17 +2,22 @@ package API;
 
 import Exceptions.InvalidValue;
 import Lists.ArrayUnorderedList;
+import Lists.LinearNode;
+import Lists.LinkedList;
 import Lists.Network;
 
 public class Map extends Network<Local>{
 	protected int count;
+	protected LinkedList<Local> locals;
 
 	public Map() {
-		count = 0;
+		this.count = 0;
+		this.locals = new LinkedList<Local>();
 	}
 
 	public void addLocal(Local local) {
 		addVertex(local);
+		locals.add(local);
 		count++;
 	}
 
@@ -57,23 +62,29 @@ public class Map extends Network<Local>{
 		local2.removeLocalControl(local1);
 	}
 
-	public Local findLocalById(long id){
-		for (Local local : this.vertices){
-			if(local.getId() == id){
-				return local;
+	public int findLocalById(long id){
+		LinearNode<Local> current = this.locals.getHead();
+		for(int i = 0; i < count; i++){
+			if(current.getElement().getId() == id){
+				return i;
 			}
+			current = current.getNext();
 		}
+
 		System.out.println("Não existe nenhum local com este id");
-		return null;
+		return -1;
 	}
 
 	public Local[] getAllConnectors(){
 		Local[] connectors = new Local[count];
 		int i = 0;
-		for (Local local : this.vertices){
-			if(local.getType().equals("Connector")){
-				connectors[i] = local;
-				i++;
+		for (Object obj : this.vertices) {
+    		if (obj instanceof Local) {
+				Local local = (Local) obj;
+				if(local.getType().equals("Connector")){
+					connectors[i] = local;
+					i++;
+				}
 			}
 		}
 		return connectors;
@@ -82,16 +93,18 @@ public class Map extends Network<Local>{
 	public Local[] getAllPortals(){
 		Local[] portals = new Local[count];
 		int i = 0;
-		for (Local local : this.vertices){
-			if(local.getType().equals("Portal")){
-				portals[i] = local;
-				i++;
+		for (Object obj : this.vertices){
+			if(obj instanceof Local){
+				Local local = (Local) obj;
+				if(local.getType().equals("Portal")){
+					portals[i] = local;
+					i++;
+				}
 			}
 		}
 		return portals;
 	}
 
-	//ordena os locais por ordem crescente de id
 	public Local[] orderLocalsById(String type){
 		Local[] locals = new Local[count];
 		if(type.equals("Connector")){
@@ -111,18 +124,18 @@ public class Map extends Network<Local>{
 		return locals;
 	}
 
-	//Calcular o caminho mais curto entre 2 pontos a passar obrigatóriamente num local
+
 	public String shortestPathBetweenAnother(Local local1, Local local2, Local local3) {
 		String ret = "<h1>";
 		double path1 = shortestPathWeight(getIndex(local1), getIndex(local3));
 		double path2 = shortestPathWeight(getIndex(local3), getIndex(local2));
 		int[] path = returnShortestPath(getIndex(local1), getIndex(local3));
 		for (int i = 0; i < path.length; i++) {
-			ret += this.vertices[path[i]].getId() + " -> ";
+			ret += getVertices()[path[i]].getId() + " -> ";
 		}
 		path = returnShortestPath(getIndex(local3), getIndex(local2));
 		for (int i = 0; i < path.length; i++) {
-			ret += this.vertices[path[i]].getId() + " -> " ;
+			ret += getVertices()[path[i]].getId() + " -> " ;
 		}
 		ret += "</h1>";
 		ret += "<h2>Distância total: " + (path1 + path2) + "</h2>";
@@ -134,10 +147,14 @@ public class Map extends Network<Local>{
 		double path = shortestPathWeight(getIndex(local1), getIndex(local2));
 		int[] path2 = returnShortestPath(getIndex(local1), getIndex(local2));
 		for (int i = 0; i < path2.length; i++) {
-			ret += this.vertices[path2[i]].getId() + " -> ";
+			ret += getVertices()[path2[i]].getId() + " -> ";
 		}
 		ret += "</h1>";
 		ret += "<h2>Distância total: " + path + "</h2>";
 		return ret;
+	}
+
+	public int getCount() {
+		return count;
 	}
 }
