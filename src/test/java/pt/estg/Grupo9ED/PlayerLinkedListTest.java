@@ -14,7 +14,7 @@ public class PlayerLinkedListTest {
         playerLinkedList.addPlayer(player);
         playerLinkedList.addPlayer(new Player("Player", 2, "team", 99.1, 1, 1, 2, 1, 1,1));
         playerLinkedList.addPlayer(new Player("Player", 3, "team", 99.1, 1, 1, 3, 1, 1,1));
-        assertEquals(player, playerLinkedList.getPlayer(1));
+        assertEquals(player, playerLinkedList.getPlayer((long) 1));
     }
 
     @Test
