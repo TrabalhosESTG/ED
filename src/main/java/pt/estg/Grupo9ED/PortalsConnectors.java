@@ -42,6 +42,29 @@ public class PortalsConnectors {
 		return local.getId(); //retornar id do portal
 	}
 
+	@PostMapping("/admin/addRota")
+	public String addRota(
+		@RequestParam(value = "id_de", defaultValue = "-1") long id_de,
+		@RequestParam(value = "id_para", defaultValue = "-1") long id_para,
+		@RequestParam(value = "peso", defaultValue = "1") long weight) {
+			if(map.findLocalById(id_de) == null || map.findLocalById(id_para) == null)
+				return "<h1> Rota não adicionada </h1>";
+			map.addLocalConnection(map.findLocalById(id_de), map.findLocalById(id_para), weight);
+			return "<h1> Rota adicionada com sucesso </h1>";
+		}
+
+		@PostMapping("/admin/removeRota")
+	public String removeRota(
+		@RequestParam(value = "id_de", defaultValue = "-1") long id_de,
+		@RequestParam(value = "id_para", defaultValue = "-1") long id_para){
+			if(map.findLocalById(id_de) == null || map.findLocalById(id_para) == null)
+				return "<h1> Rota não encontrada </h1>";
+			map.removeLocalConnection(map.findLocalById(id_de), map.findLocalById(id_para));
+			return "<h1> Rota adicionada com sucesso </h1>";
+		}
+
+
+
 	@PostMapping("/admin/locals/jsonImport")
 	public String importLocalsJson(
 		@RequestParam(value = "json", defaultValue = "1") String jsonString){
@@ -113,9 +136,7 @@ public class PortalsConnectors {
 				long to = (long) route.get("to");
 				long weight = (long) route.get("weight");
 				i++;
-				//Local de = map.findLocalById(from);
-				//Local para = map.findLocalById(to);
-				map.addEdge(map.findLocalById(from), map.findLocalById(to), weight);
+				map.addLocalConnection(map.findLocalById(from), map.findLocalById(to), weight);
 			}
 			return "<h3>Importadas " + i + " rotas</h3>";
 		} catch (ParseException e) {
