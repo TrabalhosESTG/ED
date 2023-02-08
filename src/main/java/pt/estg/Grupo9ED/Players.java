@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import API.Local;
 import API.Player;
 import API.PlayerLinkedList;
 
@@ -24,7 +23,7 @@ public class Players {
 		return player.getId();
 	}
 
-	@GetMapping("/admin/players/list")
+	@GetMapping("/JSON/Players")
 	public String getPlayerList() {
 		return playerList.criarJSON();
 	}

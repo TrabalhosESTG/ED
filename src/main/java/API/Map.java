@@ -1,5 +1,8 @@
 package API;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import Exceptions.InvalidValue;
 import Lists.ArrayUnorderedList;
 import Lists.LinearNode;
@@ -156,5 +159,37 @@ public class Map extends Network<Local>{
 
 	public int getCount() {
 		return count;
+	}
+
+	public Local[] getAllLocals(){
+		Local[] locals = new Local[count];
+		LinearNode<Local> current = this.locals.getHead();
+		int i = 0;
+		while(current != null){
+			locals[i] = current.getElement();
+			i++;
+			current = current.getNext();
+		}
+		return locals;
+	}
+
+	public JSONObject getRoutesJson(){
+		JSONObject obj = new JSONObject();
+		JSONArray array = new JSONArray();
+		obj.put("Routes", array);
+
+		LinearNode<Local> current = this.locals.getHead();
+		while(current !=  null){
+			LinearNode<LocalControl> current2 = current.getElement().getLocalControl().getHead();
+			while(current2 != null){
+				JSONObject newObj2 = new JSONObject();
+				newObj2.put("from", current.getElement().getId());
+				newObj2.put("to", current2.getElement().getLocal().getId());
+				newObj2.put("weight", current2.getElement().getWeight());
+				array.add(newObj2);
+				current2 = current2.getNext();
+			}
+		}
+		return obj;
 	}
 }
