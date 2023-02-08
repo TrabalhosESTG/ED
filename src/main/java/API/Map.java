@@ -291,4 +291,29 @@ public class Map extends Network<Local>{
 		}
 		return obj;
 	}
+
+	public Local findLocalByLatELon(double lat, double lon){
+		LinearNode<Local> current = this.locals.getHead();
+		while(current != null){
+			if(current.getElement().getLatitude() == lat && current.getElement().getLongitude() == lon){
+				return current.getElement();
+			}
+			current = current.getNext();
+		}
+		return null;
+	}
+
+	public void findConnectedLocalsById(long id){
+		LinearNode<Local> current = this.locals.getHead();
+		while(current != null){
+			if(current.getElement().getId() == id){
+				LinearNode<LocalControl> current2 = current.getElement().getLocalControl().getHead();
+				while(current2 != null){
+					System.out.println(current2.getElement().getLocal().getId());
+					current2 = current2.getNext();
+				}
+			}
+			current = current.getNext();
+		}
+	}
 }
