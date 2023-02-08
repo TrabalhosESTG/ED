@@ -4,25 +4,50 @@ import Lists.LinearNode;
 import Lists.LinkedList;
 import org.json.simple.*;
 
+/**
+*Class that represents a list of players
+*
+*@author Guilherme Silva (8210190)
+*@author David Francisco (8210088)
+*/
 public class PlayerLinkedList {
 	protected LinkedList<Player> playerList = new LinkedList<Player>();
 	protected int count = 0;
 
+	/**
+	* Obtains the number of players in the list
+	*/
 	public int getPlayerCount()
 	{
 		return count;
 	}
 
+	/**
+	* Adds a player to the list
+	*
+	* @param player Player to be added
+	*/
 	public void addPlayer(Player player) {
 		playerList.add(player);
 		count++;
 	}
 
+	/**
+	* Removes a player from the list
+	*
+	* @param player Player to be removed
+	*/
 	public void removePlayer(Player player) {
 		playerList.remove(player);
 		count--;
 	}
 
+	/**
+	* Obtains a player from the list searching by ID
+	*
+	* @param id ID of the player to be obtained
+	* @return Player with the given ID
+	*/
 	public Player getPlayer(int id) {
 		if (playerList.isEmpty()) {
 			return null;
@@ -39,6 +64,11 @@ public class PlayerLinkedList {
 		}
 	}
 
+	/**
+	* Prints the name of all the players in a given team
+	*
+	* @param teamName Name of the team
+	*/
 	public void getTeamPlayer(String teamName) {
 		if (playerList.isEmpty()) {
 			System.out.println("There are no players");
@@ -54,7 +84,11 @@ public class PlayerLinkedList {
 		}
 	}
 
-
+	/**
+	* Method that creates a JSON with all the players in the list
+	*
+	* @return JSON with all the players in the list
+	*/
 	public String criarJSON(){
 		JSONObject obj = new JSONObject();
 		LinearNode<Player> current = playerList.getHead();
@@ -65,7 +99,9 @@ public class PlayerLinkedList {
 		return obj.toJSONString();
 	}
 
-	// ordenar os jogadores por nível
+	/**
+	* Method that sorts the players by level and prints them
+	*/
 	public void sortPlayersByLevel() {
 		LinearNode<Player> current = playerList.getHead();
 		LinearNode<Player> next = current.getNext();
@@ -84,7 +120,9 @@ public class PlayerLinkedList {
 		printPlayers();
 	}
 
-	// ordenar os jogadores por portais conquistados
+	/**
+	* Method that sorts the players by portals conquered and prints them
+	*/
 	public void sortPlayersByPortals() {
 		LinearNode<Player> current = playerList.getHead();
 		LinearNode<Player> next = current.getNext();
@@ -103,6 +141,9 @@ public class PlayerLinkedList {
 		printPlayers();
 	}
 
+	/**
+	* Method that prints the name of all the players in the list
+	*/
 	public void printPlayers() {
 		if (playerList.isEmpty()) {
 			System.out.println("There are no players");
