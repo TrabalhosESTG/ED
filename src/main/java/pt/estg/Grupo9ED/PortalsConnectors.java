@@ -129,4 +129,25 @@ public class PortalsConnectors {
 		return ret;
 	}
 
+	@PostMapping("/listagem/connectorsOrderedID")
+	public String connectorsOrderedID(){
+		String ret = "<table><tr><th>ID</th><th>Nome</th><th>Latitude</th><th>Longitude</th><th>Energy</th></tr>";
+		for (Local connector : map.orderLocalsById("Connector")) {
+			if(connector != null)
+				ret += "<tr><td>" + connector.getId() + "</td><td>" + connector.getName() + "</td><td>" + connector.getLatitude() + "</td><td>" + connector.getLongitude() + "</td><td>" + connector.getEnergy() + "</td></tr>";
+		}
+		ret += "</table>";
+		return ret;
+	}
+
+	@PostMapping("/listagem/portaisOrderedID")
+	public String portaisOrderedID(){
+		String ret = "<table><tr><th>ID</th><th>Nome</th><th>Latitude</th><th>Longitude</th><th>Energy</th></tr>";
+		for (Local portal : map.orderLocalsById("Portal")) {
+			if(portal != null)
+				ret += "<tr><td>" + portal.getId() + "</td><td>" + portal.getName() + "</td><td>" + portal.getLatitude() + "</td><td>" + portal.getLongitude() + "</td><td>" + portal.getEnergy() + "</td></tr>";
+		}
+		ret += "</table>";
+		return ret;
+	}
 }
