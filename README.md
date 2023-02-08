@@ -18,7 +18,7 @@ Exportar ficheiro JSON com informações de portais ☑️
 
 Exportar ficheiro JSON com informações de conectores ☑️
 
-Criar rotas entre portais e conectores -
+Criar rotas entre portais e conectores ☑️
 
 Remover rotas entre portais e conectores -
 
