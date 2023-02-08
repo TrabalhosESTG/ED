@@ -14,4 +14,9 @@ public class listagemController {
 	public String portaisOrdenados() {
 		return "listagem/portaisOrdenados";
 	}
+
+	@GetMapping("/listagem/encontrarCaminhoCurto")
+	public String encontrarCaminhoCurto() {
+		return "listagem/encontrarCaminhoCurto";
+	}
 }

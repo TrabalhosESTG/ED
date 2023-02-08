@@ -50,4 +50,9 @@ public class AdminController {
 	public String removeRota() {
 		return "admin/removeRota";
 	}
+
+	@GetMapping("/admin/removeLocal")
+	public String removeLocal() {
+		return "admin/removeLocal";
+	}
 }

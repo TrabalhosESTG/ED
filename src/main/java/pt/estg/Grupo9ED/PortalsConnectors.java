@@ -207,4 +207,40 @@ public class PortalsConnectors {
 	public String jsonRoutes() {
 		return map.getRoutesJson().toJSONString();
 	}
+
+	@PostMapping("/admin/local/remove")
+	public String removeLocal(
+		@RequestParam(value = "id", defaultValue = "1") int id) {
+		map.removeLocal(map.findLocalById(id));
+		return "<h1>Local removido com sucesso</h1>";
+	}
+
+	@PostMapping("/rotas/maisCurta")
+	public String RotaMaisCurta(
+		@RequestParam(value = "id_inicio", defaultValue = "1") int id_inicio,
+		@RequestParam(value = "id_fim", defaultValue = "1") int id_fim) {
+
+		if(id_inicio == id_fim)
+			return "<h1>IDs iguais</h1>";
+
+		if(map.findLocalById(id_inicio) == null || map.findLocalById(id_fim) == null)
+			return "<h1>IDs invalidos</h1>";
+
+		return "<h1>" + map.shortestPath(map.findLocalById(id_inicio), map.findLocalById(id_fim)) +"</h1>";
+	}
+
+	@PostMapping("/rotas/maisCurtaIntermedio")
+	public String RotaMaisCurtaIntermedio(
+		@RequestParam(value = "id_inicio", defaultValue = "1") int id_inicio,
+		@RequestParam(value = "id_intermedio", defaultValue = "1") int id_intermedio,
+		@RequestParam(value = "id_fim", defaultValue = "1") int id_fim) {
+
+		if(id_inicio == id_intermedio || id_intermedio == id_fim || id_inicio == id_fim)
+			return "<h1>IDs iguais</h1>";
+
+		if(map.findLocalById(id_inicio) == null || map.findLocalById(id_intermedio) == null || map.findLocalById(id_fim) == null)
+			return "<h1>IDs invalidos</h1>";
+
+		return "<h1>" + map.shortestPathBetweenAnother(map.findLocalById(id_inicio), map.findLocalById(id_fim), map.findLocalById(id_intermedio)) +"</h1>";
+	}
 }
