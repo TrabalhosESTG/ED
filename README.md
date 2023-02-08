@@ -46,4 +46,7 @@ Exportar ficheiro JSON com as configurações do jogo
 
 
 JOGO:
-To be continued...
+
+Escolher jogador, mostrar sitios para onde pode ir da sua posição e mover
+
+
