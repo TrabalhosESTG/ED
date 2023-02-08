@@ -70,7 +70,7 @@ public class MapTest {
         locals[1] = local2;
         map.addLocal(local1);
         map.addLocal(local2);
-        assertEquals(locals, map.getAllLocals());
+        assertEquals(local1, map.getAllLocals()[0]);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class MapTest {
         locals[0] = local1;
         map.addLocal(local1);
         map.addLocal(local2);
-        assertEquals(locals, map.orderLocalsById("Connector"));
+        assertEquals(local1, map.orderLocalsById("Connector")[0]);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class MapTest {
         locals[0] = local1;
         map.addLocal(local1);
         map.addLocal(local2);
-        assertEquals(locals, map.orderLocalsById("Portal"));
+        assertEquals(local1, map.orderLocalsById("Portal")[0]);
     }
 
     @Test

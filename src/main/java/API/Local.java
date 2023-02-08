@@ -222,7 +222,7 @@ public class Local{
 	*/
     public void removeLocalControl(Local local){
         LinearNode<LocalControl> current = LocalControl.getHead();
-        while(current != null && current.getElement().getLocal().equals(local)){
+        while(current != null && !current.getElement().getLocal().equals(local)){
             current = current.getNext();
         }
         if(current != null){
