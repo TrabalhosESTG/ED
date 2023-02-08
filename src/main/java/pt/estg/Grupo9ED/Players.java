@@ -1,4 +1,4 @@
-package pt.estg.Grupo9ED;
+/* package pt.estg.Grupo9ED;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,6 +21,16 @@ public class Players {
 		Player player = new Player(name, equipa, playerList.getPlayerCount());
 		playerList.addPlayer(player);
 		return player.getId();
+	}
+
+	@PostMapping("/players/getPlayer/")
+	public String getPlayer(@RequestParam(value = "id", defaultValue = "1") long id) {
+		Player player = playerList.getPlayer(id);
+		if (player != null) {
+			return player.criarPlayerJSON().toJSONString();
+		} else {
+			return "Player not found";
+		}
 	}
 
 	@GetMapping("/JSON/Players")
@@ -69,3 +79,4 @@ public class Players {
 			}
 	}
 }
+ */

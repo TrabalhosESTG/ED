@@ -48,7 +48,7 @@ public class PlayerLinkedList {
 	* @param id ID of the player to be obtained
 	* @return Player with the given ID
 	*/
-	public Player getPlayer(int id) {
+	public Player getPlayer(Long id) {
 		if (playerList.isEmpty()) {
 			return null;
 		} else {

@@ -102,6 +102,10 @@ public class Local{
         return this.player;
     }
 
+	public long getCooldown() {
+		return cooldown;
+	}
+
 	/**
 	*Setter for the energy of the local
 	*

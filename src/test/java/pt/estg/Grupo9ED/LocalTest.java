@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import API.Local;
 import API.Player;
 public class LocalTest {
-    
+
     @Test
     void testGetId() {
         Local local = new Local(0, null, null, 0, 0, 0, 0);
@@ -45,7 +45,7 @@ public class LocalTest {
     @Test
     void testGetType() {
         Local local = new Local(0, "Portal", null, 0, 0, 0, 0);
-        
+
         assertEquals("Portal", local.getType());
     }
 
@@ -86,7 +86,7 @@ public class LocalTest {
         local.removeLocalControl(local1);
         assertEquals(0, local.getLocalControl().size());
     }
-    
+
     @Test
     void testLoadEnergy() {
         Local local = new Local(0, "Portal", null, 0, 0, 1, 1, null, "team");

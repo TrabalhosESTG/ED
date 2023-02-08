@@ -15,18 +15,18 @@
 	<label for="local">Para onde movimentar:</label>
 	<select name="local" id="local"></select>
 
-	<div id="connector" style="border-color: blue;border-style: dashed;">
+	<div id="connector" style="border-color: blue;border-style: dashed;display:none" >
 		<h1>-----Connector-----</h1>
-		<h2>Energia: <span id="Energia">100</span></h2>
+		<h2>Energia: <span id="Energia_Connector">100</span></h2>
 		<h2>Tempo de cooldown: <span id="Cooldown_Connector">Sem cooldown</span></h2>
 		<button id="RecarregarEnergia">Recarregar energia</button>
 	</div>
 
-	<div id="portal" style="border-color: blue;border-style: dashed;">
+	<div id="portal" style="border-color: blue;border-style: dashed;display:none">
 		<h1>-----Portal-----</h1>
 		<h2>Portal da equipa: <span id="Equipa_Portal">Giants</span></h2>
 		<h2>Energia do portal: <span id="Energia_Portal">100</span></h2>
-		<h2>Sua energia: <span id="Energia_Portal">100</span></h2>
+		<h2>Sua energia: <span id="Energia_Portal_meu">100</span></h2>
 		<button id="RecarregarPortal">Recarregar Portal</button>
 		<button id="AtacarPortal">Atacar Portal</button>
 	</div>
@@ -35,6 +35,68 @@
 	<script>
 		$.get("/players/getList", function( data ) {
 			$("#jogadores").append(data);
+		});
+
+		$("#jogadores").change(function() {
+			$.post("/players/getPlayer/", {id: $("#jogadores").val()}, function( data ) {
+				if(data == "Player not found")
+				{
+					return;
+				}
+				data = JSON.parse(data);
+
+				$("#Energia_Portal_meu").text(data.energy);
+				$("#Energia_Connector").text(data.energy);
+
+				if(data.latitude == 0 && data.longitude == 0)
+				{
+					$("#LocalAtual").text("Sem Local");
+					$.post("/rotas/aPartitDe", {id: -1} , function( data ) {
+						$("#local").empty();
+						$("#local").append(data);
+					});
+				}
+				else
+				{
+					var local_atual;
+					$.post("/locals/FindByCoordinates", {latitude: data.latitude, longitude: data.longitude}, function( data ) {
+						local_atual = JSON.parse(data);
+						if(local_atual.name == "null"){
+							$("#LocalAtual").text("Connector " + local_atual.id);
+							$("#connector").css("display", "block");
+							$("#portal").css("display", "none");
+						}
+						else
+						{
+							$("#LocalAtual").text(local_atual.name);
+							if(local_atual.team == null)
+								$("#Equipa_Portal").text("Nenhuma");
+							else
+								$("#Equipa_Portal").text(local_atual.team);
+							$("#Energia_Portal").text(local_atual.energy);
+							$("#connector").css("display", "none");
+							$("#portal").css("display", "block");
+						}
+						$.post("/rotas/aPartitDe", {id:local_atual.id}, function( data ) {
+							$("#local").empty();
+							$("#local").append(data);
+						});
+					});
+				}
+			});
+		});
+
+		$("#RecarregarEnergia").click(function() {
+			$.post("/admin/player/loadEnergy", {id_Jogador: $("#jogadores").val(), id_Local: $("#local").val()}, function( data ) {
+				if(data == "Player not found")
+				{
+					return;
+				}
+				data;
+				$("#Energia_Connector").text(data);
+				$("#Energia_Portal_meu").text(data);
+				alert("Energia recarregada com sucesso! Nova Energia: " + data);
+			});
 		});
 	</script>
 </body>

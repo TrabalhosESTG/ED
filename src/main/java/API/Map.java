@@ -9,19 +9,19 @@ import Lists.LinearNode;
 import Lists.LinkedList;
 import Lists.Network;
 
-/** 
+/**
 *Class that represents the map of the game
 *It extends the Network class
 *
 *@author Guilherme Silva (8210190)
-*@author David Francisco (8210088) 
+*@author David Francisco (8210088)
 */
 public class Map extends Network<Local>{
 	protected int count;
 	protected LinkedList<Local> locals;
 
-	/** 
-	* Constructor of the class 
+	/**
+	* Constructor of the class
 	*/
 	public Map() {
 		this.count = 0;
@@ -30,7 +30,7 @@ public class Map extends Network<Local>{
 
 	/**
 	* Method that adds a local to the map
-	* 
+	*
 	* @param local
 	*/
 	public void addLocal(Local local) {
@@ -269,6 +269,24 @@ public class Map extends Network<Local>{
 	}
 
 	/**
+	 * Method that returns an html option list  with all the locals
+	 * @return array with all the locals
+	*/
+	public String getAllLocalsHTML(){
+		String ret = "";
+		Local[] locals = new Local[count];
+		LinearNode<Local> current = this.locals.getHead();
+		int i = 0;
+		while(current != null){
+			ret += "<option value=" + current.getElement().getId() + ">" + current.getElement().getName() + "</option>";
+			locals[i] = current.getElement();
+			i++;
+			current = current.getNext();
+		}
+		return ret;
+	}
+
+	/**
 	 * Method that creates a json with all the routes of the map
 	 * @return json with all the routes of the map
 	*/
@@ -303,17 +321,72 @@ public class Map extends Network<Local>{
 		return null;
 	}
 
-	public void findConnectedLocalsById(long id){
+	public String findConnectedLocalsById(long id){
+		String ret = "";
 		LinearNode<Local> current = this.locals.getHead();
+		if(id == -1)
+		{
+			return getAllLocalsHTML();
+		}
 		while(current != null){
 			if(current.getElement().getId() == id){
 				LinearNode<LocalControl> current2 = current.getElement().getLocalControl().getHead();
 				while(current2 != null){
-					System.out.println(current2.getElement().getLocal().getId());
+					if(current2.getElement().getLocal().getType() == "Portal"){
+						ret += "<option value=\"" + current2.getElement().getLocal().getId() + "\">" + current2.getElement().getLocal().getName() + "</option>";
+					}else{
+						ret += "<option value=\"" + current2.getElement().getLocal().getId() + "\">Connector " + current2.getElement().getLocal().getId() + "</option>";
+					}
 					current2 = current2.getNext();
 				}
 			}
 			current = current.getNext();
 		}
+		return ret;
+	}
+
+	/**
+	* Method that loads the energy of the player when the local is a "Connector" and the player is not in the cooldown
+	*/
+    public void loadPlayerEnergy(Local local, Player player){
+		if(local.type.equals("Portal"))
+			return;
+		LinearNode<TimeControl> current = local.timeControl.getHead();
+		while( current != null && !current.getElement().getPlayerName().equals(player.getName())){
+			current = current.getNext();
+		}
+		if(current == null){
+			local.timeControl.add(new TimeControl(player.getName(), (System.currentTimeMillis())));
+			player.loadEnergy(local.energy);
+		}else{
+			TimeControl timeControl = current.getElement();
+		    Long time = System.currentTimeMillis();
+			int diff = (int) ((time - timeControl.getTime())/60000);
+			if(diff >= local.cooldown){
+				player.loadEnergy(local.energy);
+				current.getElement().setTime(System.currentTimeMillis());
+			}else{
+				System.out.println("You can't load energy yet");
+			}
+		}
+	}
+
+	/**
+	* Method that removes energy from the local when the local is a "Portal" and the player
+	*/
+	public void deloadEnergy(Local local, Player player){
+		local.deloadEnergy(20);
+		player.removeEnergy(20);
+	}
+
+	public void ConquerPortal(Local local, Player player){
+		local.setPlayer(player);
+		local.conquer();
+		player.removeEnergy(player.getEnergy() * 0.25);
+	}
+
+	public void movePlayer(Local local, Player player){
+		player.setLatitude(local.latitude);
+		player.setLongitude(local.longitude);
 	}
 }

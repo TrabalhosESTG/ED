@@ -11,11 +11,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 import API.Local;
 import API.Map;
+import API.Player;
+import API.PlayerLinkedList;
 
+/**
+ * PortalsConnectors is a class that handles the creation and manipulation of Portals and Connectors.
+ * It uses a Map object to store the Portals and Connectors and offers endpoints for adding, removing, and importing data.
+ *
+ * @author Guilherme Silva (8210190)
+ * @author David Francisco (8210088)
+ */
 @RestController
 public class PortalsConnectors {
+	PlayerLinkedList playerList = new PlayerLinkedList();
 	Map map = new Map();
 
+	/**
+	 * Endpoint for creating a Portal.
+	 *
+	 * @param id the identifier of the Portal
+	 * @param name the name of the Portal
+	 * @param maxEnergy the maximum energy of the Portal
+	 * @param energy the current energy of the Portal
+	 * @param latitude the latitude of the Portal's location
+	 * @param longitude the longitude of the Portal's location
+	 *
+	 * @return the identifier of the created Portal
+	 */
 	@PostMapping("/admin/portals/create")
 	public long createPortal(
 		@RequestParam(value = "id", defaultValue = "1") int id,
@@ -29,6 +51,18 @@ public class PortalsConnectors {
 		return local.getId(); //retornar id do portal
 	}
 
+		/**
+	 * Endpoint for creating a Connector.
+	 *
+	 * @param id the identifier of the Connector
+	 * @param name the name of the Connector
+	 * @param cooldown the cooldown time of the Connector
+	 * @param energy the energy of the Connector
+	 * @param latitude the latitude of the Connector's location
+	 * @param longitude the longitude of the Connector's location
+	 *
+	 * @return the identifier of the created Connector
+	 */
 	@PostMapping("/admin/connectors/create")
 	public long createConnector(
 		@RequestParam(value = "id", defaultValue = "1") int id,
@@ -193,7 +227,7 @@ public class PortalsConnectors {
 					gameSettings.put("maxEnergy", local.getMaxEnergy());
 				} else if (local.getType().equals("Connector")) {
 					gameSettings.put("energy", local.getEnergy());
-					gameSettings.put("cooldown", 1);//local.getCooldown());
+					gameSettings.put("cooldown", local.getCooldown());
 				}
 				localObject.put("gameSettings", gameSettings);
 				localsArray.add(localObject);
@@ -243,4 +277,152 @@ public class PortalsConnectors {
 
 		return "<h1>" + map.shortestPathBetweenAnother(map.findLocalById(id_inicio), map.findLocalById(id_fim), map.findLocalById(id_intermedio)) +"</h1>";
 	}
+
+	@PostMapping("/rotas/aPartitDe")
+	public String getLocaisConnected(
+		@RequestParam(value = "id", defaultValue = "-1") long id
+	)
+	{
+		return map.findConnectedLocalsById(id);
+	}
+
+	@PostMapping("/locals/findByID")
+	public String LocalsFindByID(
+		@RequestParam(value = "id", defaultValue = "-1") long id
+	)
+	{
+		Local local = map.findLocalById(id);
+		return "{\"id\": "+ local.getId() + ", \"name\": \"" + local.getName() + "\"}";
+	}
+
+	@PostMapping("/locals/FindByCoordinates")
+	public String LocalsFindByCoordinates(
+		@RequestParam(value = "latitude", defaultValue = "-1") double latitude,
+		@RequestParam(value = "longitude", defaultValue = "-1") double longitude
+	)
+	{
+		Local local = map.findLocalByLatELon(latitude, longitude);
+		if(local.getType().equals("Portal")){
+			return "{\"id\": "+ local.getId() + ", \"name\": \"" + local.getName() + "\", \"energy\": " + local.getEnergy() + ", \"team\": " + local.getConquererTeam() + "}";
+		}
+		return "{\"id\": "+ local.getId() + ", \"name\": \"" + local.getName() + "\"}";
+	}
+
+	/**
+	 * Creates a new player with the given name and team and adds the player to the player list.
+	 *
+	 * @param name the name of the player
+	 * @param equipa the team of the player
+	 * @return the ID of the newly created player
+	 */
+	@PostMapping("/admin/players/create")
+	public long createPlayer(@RequestParam(value = "name", defaultValue = "Player") String name, @RequestParam(value = "equipa", defaultValue = "Sparks") String equipa) {
+		Player player = new Player(name, equipa, playerList.getPlayerCount());
+		playerList.addPlayer(player);
+		return player.getId();
+	}
+
+	@PostMapping("/players/getPlayer/")
+	public String getPlayer(@RequestParam(value = "id", defaultValue = "1") long id) {
+		Player player = playerList.getPlayer(id);
+		if (player != null) {
+			return player.criarPlayerJSON().toJSONString();
+		} else {
+			return "Player not found";
+		}
+	}
+
+	/**
+	 * Returns the player list as a JSON string.
+	 *
+	 * @return the player list as a JSON string
+	 */
+	@GetMapping("/JSON/Players")
+	public String getPlayerJson() {
+		return playerList.criarJSON();
+	}
+
+	/**
+	 * Returns the player list in human-readable format.
+	 *
+	 * @return the player list in human-readable format
+	 */
+	@GetMapping("players/getList")
+	public String getPlayerList() {
+		return playerList.criarLista();
+	}
+
+	/**
+	 * Imports player data from a JSON string and adds the players to the player list.
+	 *
+	 * @param jsonString the JSON string containing the player data
+	 * @return the number of players imported
+	 */
+	@PostMapping("/admin/players/jsonImport")
+	public String importPlayersJson(
+		@RequestParam(value = "json", defaultValue = "1") String jsonString){
+			try {
+				int j = 0;
+				JSONParser parser = new JSONParser();
+				JSONObject json = (JSONObject) parser.parse(jsonString);
+				JSONArray players = (JSONArray) json.get("players");
+
+				for (Object player : players) {
+					JSONObject playerJSON = (JSONObject) player;
+					Long id = (Long) playerJSON.get("id");
+					String name = (String) playerJSON.get("name");
+					String team = (String) playerJSON.get("team");
+					Long level = (Long) playerJSON.get("level");
+					Long experiencePoints = (Long) playerJSON.get("experiencePoints");
+					Long currentEnergy = (Long) playerJSON.get("currentEnergy");
+					Long totalEnergy = (Long) playerJSON.get("totalEnergy");
+					Long conqueredPortals = (Long) playerJSON.get("conqueredPortals");
+					JSONObject coordinates = (JSONObject) playerJSON.get("coordinates");
+					Double latitude = (Double) coordinates.get("latitude");
+					Double longitude = (Double) coordinates.get("longitude");
+
+					Player newPlayer = new Player(name, level, team, experiencePoints, currentEnergy, totalEnergy, id, latitude, longitude, conqueredPortals) ;
+					playerList.addPlayer(newPlayer);
+					j++;
+				}
+				return "<h3>Players importados: " + j + "</h3>";
+			} catch (ParseException e) {
+				return "<h3>Json Invalido</h3>";
+			} catch(Exception e)
+			{
+				return "<h3>Erro de servidor</h3>";
+			}
+	}
+
+	@PostMapping("/admin/portals/attack")
+    public long attackPortal(
+        @RequestParam(value = "id_Jogador", defaultValue = "1") int id_Player,
+        @RequestParam(value = "id_Portal", defaultValue = "Portal") int id_Portal) {
+        map.deloadEnergy(map.findLocalById(id_Portal), playerList.getPlayer((long) id_Player));;
+        return map.findLocalById(id_Portal).getEnergy();
+    }
+
+	@PostMapping("/admin/portals/conquer")
+    public String conquerPortal(
+        @RequestParam(value = "id_Jogador", defaultValue = "1") int id_Player,
+        @RequestParam(value = "id_Portal", defaultValue = "Portal") int id_Portal) {
+        map.ConquerPortal(map.findLocalById(id_Portal), playerList.getPlayer((long) id_Player));;
+        return map.findLocalById(id_Portal).getConquererPlayer();
+    }
+
+	@PostMapping("/admin/player/move")
+    public String movePlayer(
+        @RequestParam(value = "id_Jogador", defaultValue = "1") int id_Player,
+        @RequestParam(value = "id_Local", defaultValue = "Portal") int id_Local) {
+        map.movePlayer(map.findLocalById(id_Local), playerList.getPlayer((long) id_Player));;
+        return "longitude: " + playerList.getPlayer((long) id_Player).getLongitude() + " latitude: " + playerList.getPlayer((long) id_Player).getLatitude();
+    }
+
+	@PostMapping("/admin/player/loadEnergy")
+    public Double loadPlayerEnergy(
+        @RequestParam(value = "id_Jogador", defaultValue = "1") int id_Player,
+        @RequestParam(value = "id_Local", defaultValue = "Portal") int id_Local) {
+        map.loadPlayerEnergy(map.findLocalById(id_Local), playerList.getPlayer((long) id_Player));;
+        return playerList.getPlayer((long) id_Player).getEnergy();
+    }
 }

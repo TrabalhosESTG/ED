@@ -43,8 +43,8 @@
 		  "team": "Sparks",
 		  "level": 5,
 		  "experiencePoints": 24998,
-		  "currentEnergy": 70,
-		  "totalEnergy": 46,
+		  "currentEnergy": 46,
+		  "totalEnergy": 70,
 		  "conqueredPortals": 1,
 		  "coordinates": {
 			"latitude": 40.7697989,
@@ -57,8 +57,8 @@
 		  "team": "Sparks",
 		  "level": 5,
 		  "experiencePoints": 24998,
-		  "currentEnergy": 70,
-		  "totalEnergy": 46,
+		  "currentEnergy": 46,
+		  "totalEnergy": 70,
 		  "conqueredPortals": 1,
 		  "coordinates": {
 			"latitude": 40.7697989,
