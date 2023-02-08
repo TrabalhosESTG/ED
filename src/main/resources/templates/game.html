@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Jogo</h1>
+
+	<label for="jogadores">Escolha um Jogador:</label>
+	<select name="jogadores" id="jogadores"></select>
+
+	<h2>Está em: <span id="LocalAtual">Local</span></h2>
+
+	<label for="local">Para onde movimentar:</label>
+	<select name="local" id="local"></select>
+
+	<div id="connector" style="border-color: blue;border-style: dashed;">
+		<h1>-----Connector-----</h1>
+		<h2>Energia: <span id="Energia">100</span></h2>
+		<h2>Tempo de cooldown: <span id="Cooldown_Connector">Sem cooldown</span></h2>
+		<button id="RecarregarEnergia">Recarregar energia</button>
+	</div>
+
+	<div id="portal" style="border-color: blue;border-style: dashed;">
+		<h1>-----Portal-----</h1>
+		<h2>Portal da equipa: <span id="Equipa_Portal">Giants</span></h2>
+		<h2>Energia do portal: <span id="Energia_Portal">100</span></h2>
+		<h2>Sua energia: <span id="Energia_Portal">100</span></h2>
+		<button id="RecarregarPortal">Recarregar Portal</button>
+		<button id="AtacarPortal">Atacar Portal</button>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js" integrity="sha512-nO7wgHUoWPYGCNriyGzcFwPSF+bPDOR+NvtOYy2wMcWkrnCNPKBcFEkU80XIN14UVja0Gdnff9EmydyLlOL7mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		$.get("/players/getList", function( data ) {
+			$("#jogadores").append(data);
+		});
+	</script>
+</body>
+</html>

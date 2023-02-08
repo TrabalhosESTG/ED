@@ -100,6 +100,21 @@ public class PlayerLinkedList {
 	}
 
 	/**
+	* Method that creates a html select list  with all the players
+	*
+	* @return html select list with all the players
+	*/
+	public String criarLista(){
+		LinearNode<Player> current = playerList.getHead();
+		String ret = "";
+		while (current != null) {
+			ret += "<option value=\""+ current.getElement().getId() + "\">"+ current.getElement().getName() +"</option>";
+			current = current.getNext();
+		}
+		return ret;
+	}
+
+	/**
 	* Method that sorts the players by level and prints them
 	*/
 	public void sortPlayersByLevel() {

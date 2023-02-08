@@ -13,5 +13,10 @@ public class IndexController {
 		model.addAttribute("name", name);
 		return "index";
 	}
+
+	@GetMapping("/game")
+	public String game() {
+		return "game";
+	}
 }
 

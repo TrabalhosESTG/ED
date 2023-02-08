@@ -24,8 +24,13 @@ public class Players {
 	}
 
 	@GetMapping("/JSON/Players")
-	public String getPlayerList() {
+	public String getPlayerJson() {
 		return playerList.criarJSON();
+	}
+
+	@GetMapping("players/getList")
+	public String getPlayerList() {
+		return playerList.criarLista();
 	}
 
 	@PostMapping("/admin/players/jsonImport")
