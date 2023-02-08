@@ -77,36 +77,34 @@ public class Map extends Network<Local>{
 
 	public Local[] getAllConnectors(){
 		Local[] connectors = new Local[count];
+		LinearNode<Local> current = this.locals.getHead();
 		int i = 0;
-		for (Object obj : this.vertices) {
-    		if (obj instanceof Local) {
-				Local local = (Local) obj;
-				if(local.getType().equals("Connector")){
-					connectors[i] = local;
-					i++;
-				}
+		while(current != null){
+			if(current.getElement().getType().equals("Connector")){
+				connectors[i] = current.getElement();
+				i++;
 			}
+			current = current.getNext();
 		}
 		return connectors;
 	}
 
 	public Local[] getAllPortals(){
 		Local[] portals = new Local[count];
+		LinearNode<Local> current = this.locals.getHead();
 		int i = 0;
-		for (Object obj : this.vertices){
-			if(obj instanceof Local){
-				Local local = (Local) obj;
-				if(local.getType().equals("Portal")){
-					portals[i] = local;
-					i++;
-				}
+		while(current != null){
+			if(current.getElement().getType().equals("Portal")){
+				portals[i] = current.getElement();
+				i++;
 			}
+			current = current.getNext();
 		}
 		return portals;
 	}
 
 	public Local[] orderLocalsById(String type){
-		Local[] locals = new Local[count];
+		Local[] locals;
 		if(type.equals("Connector")){
 			locals = getAllConnectors();
 		}else{
@@ -114,10 +112,12 @@ public class Map extends Network<Local>{
 		}
 		for (int j = 0; j < locals.length; j++) {
 			for (int k = 0; k < locals.length; k++) {
-				if(locals[j].getId() < locals[k].getId()){
+				if(locals[j] != null && locals[k] != null){
+					if(locals[j].getId() < locals[k].getId()){
 					Local aux = locals[j];
 					locals[j] = locals[k];
 					locals[k] = aux;
+				}
 				}
 			}
 		}
