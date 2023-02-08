@@ -36,6 +36,8 @@ public class Player {
 		this.totalEnergy = 100;
 		this.id = id;
 		this.conqueredPortals = 0;
+		this.latitude = 0;
+		this.longitude = 0;
 	}
 
 	/**
@@ -55,6 +57,8 @@ public class Player {
 		this.totalEnergy = 100;
 		this.id = id;
 		this.conqueredPortals = 0;
+		this.latitude = 0;
+		this.longitude = 0;
 	}
 
 	/**

@@ -65,13 +65,10 @@ public class LocalTest {
 
     @Test
     void testLoadPlayerEnergy() {
-        Local local = new Local(0, "Portal", null, 0, 0, 1, 0);
-        local.setPlayer(new Player("Player", 1, "team", 99.1, 1, 1, 1, 1, 1,1));
-        local.loadPlayerEnergy();
-        local = new Local(0, "Connector", null, 0, 0, 1, 0);
-        local.setPlayer(new Player("Player", 1, "team", 99.1, 1, 1, 1, 1, 1,1));
-        local.loadPlayerEnergy();
-        assertEquals(2, local.getPlayer().getEnergy());
+        Local local1 = new Local(0, "Connector", null, 0, 0, 1, 0);
+        local1.setPlayer(new Player("Player", 1, "team", 99.1, 1, 2, 1, 1, 1,1));
+        local1.loadPlayerEnergy();
+        assertEquals(2, local1.getPlayer().getEnergy());
     }
 
     @Test
