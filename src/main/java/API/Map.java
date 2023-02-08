@@ -50,22 +50,36 @@ public class Map extends Network<Local>{
 
 	public void removeLocal(Local local) {
 		removeVertex(local);
+		locals.remove(local);
 		count--;
 	}
 
 	public void addLocalConnection(Local local1, Local local2, double weight) {
-		addEdge(local1, local2, weight);
+		addEdge(findIndexById(local1.getId()), findIndexById(local2.getId()), weight);
 		local1.addLocalControl(local2, weight);
 		local2.addLocalControl(local1, weight);
 	}
 
 	public void removeLocalConnection(Local local1, Local local2) {
-		removeEdge(local1, local2);
+		removeEdge(findIndexById(local1.getId()), findIndexById(local2.getId()));
 		local1.removeLocalControl(local2);
 		local2.removeLocalControl(local1);
 	}
 
-	public int findLocalById(long id){
+	public Local findLocalById(long id){
+		LinearNode<Local> current = this.locals.getHead();
+		while(current != null){
+			if(current.getElement().getId() == id){
+				return current.getElement();
+			}
+			current = current.getNext();
+		}
+
+		System.out.println("Não existe nenhum local com este id");
+		return null;
+	}
+
+	public int findIndexById(long id){
 		LinearNode<Local> current = this.locals.getHead();
 		for(int i = 0; i < count; i++){
 			if(current.getElement().getId() == id){
@@ -130,15 +144,15 @@ public class Map extends Network<Local>{
 
 	public String shortestPathBetweenAnother(Local local1, Local local2, Local local3) {
 		String ret = "<h1>";
-		double path1 = shortestPathWeight(getIndex(local1), getIndex(local3));
-		double path2 = shortestPathWeight(getIndex(local3), getIndex(local2));
-		int[] path = returnShortestPath(getIndex(local1), getIndex(local3));
+		double path1 = shortestPathWeight(findIndexById(local1.getId()), findIndexById(local3.getId()));
+		double path2 = shortestPathWeight(findIndexById(local3.getId()), findIndexById(local2.getId()));
+		int[] path = returnShortestPath(findIndexById(local1.getId()), findIndexById(local3.getId()));
 		for (int i = 0; i < path.length; i++) {
-			ret += getVertices()[path[i]].getId() + " -> ";
+			ret += getAllLocals()[path[i]].getId() + " -> ";
 		}
-		path = returnShortestPath(getIndex(local3), getIndex(local2));
+		path = returnShortestPath(findIndexById(local3.getId()), findIndexById(local2.getId()));
 		for (int i = 0; i < path.length; i++) {
-			ret += getVertices()[path[i]].getId() + " -> " ;
+			ret += getAllLocals()[path[i]].getId() + " -> " ;
 		}
 		ret += "</h1>";
 		ret += "<h2>Distância total: " + (path1 + path2) + "</h2>";
@@ -147,10 +161,10 @@ public class Map extends Network<Local>{
 
 	public String shortestPath(Local local1, Local local2) {
 		String ret = "<h1>";
-		double path = shortestPathWeight(getIndex(local1), getIndex(local2));
-		int[] path2 = returnShortestPath(getIndex(local1), getIndex(local2));
+		double path = shortestPathWeight(findIndexById(local1.getId()), findIndexById(local2.getId()));
+		int[] path2 = returnShortestPath(findIndexById(local1.getId()), findIndexById(local2.getId()));
 		for (int i = 0; i < path2.length; i++) {
-			ret += getVertices()[path2[i]].getId() + " -> ";
+			ret += getAllLocals()[path2[i]].getId() + " -> ";
 		}
 		ret += "</h1>";
 		ret += "<h2>Distância total: " + path + "</h2>";

@@ -40,4 +40,14 @@ public class AdminController {
 	public String importConfigJson() {
 		return "admin/importConfigJson";
 	}
+
+	@GetMapping("/admin/addRota")
+	public String addRota() {
+		return "admin/addRota";
+	}
+
+	@GetMapping("/admin/removeRota")
+	public String removeRota() {
+		return "admin/removeRota";
+	}
 }
