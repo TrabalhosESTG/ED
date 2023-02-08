@@ -460,4 +460,8 @@ public class Network<T> extends Graph<T> implements NetworkADT<T> {
 		}
 		return path;
 	}
+
+	public T[] getVertices(){
+		return vertices;
+	}
 }

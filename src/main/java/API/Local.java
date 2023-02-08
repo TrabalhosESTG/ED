@@ -3,7 +3,7 @@ package API;
 import Lists.LinearNode;
 import Lists.LinkedList;
 
-public class Local {
+public class Local extends java.lang.Object{
     protected long id;
     protected String type;
     protected String name;

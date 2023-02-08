@@ -12,36 +12,42 @@
 	<button>Importar</button>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js" integrity="sha512-nO7wgHUoWPYGCNriyGzcFwPSF+bPDOR+NvtOYy2wMcWkrnCNPKBcFEkU80XIN14UVja0Gdnff9EmydyLlOL7mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
-		$("button").click(function(){
-			$("#Resposta").html(" ");
 
-			var json = $("#JSON").val();
-
-			var obj = JSON.parse(json);
-
+		function createLocal(obj){
 			var locals = "{ \"locals\":" + JSON.stringify(obj.locals) + " }";
-
 
 			$.post("locals/jsonImport", {json: locals}, function( data ) {
 				$("#Resposta").append("<h1>Locais</h1>");
 				$("#Resposta").append(data);
+				createPlayers(obj);
 			});
+		}
 
+		function createPlayers(obj){
 			var players = "{ \"players\":" + JSON.stringify(obj.players) + " }";
-
 
 			$.post("players/jsonImport", {json: players}, function( data ) {
 				$("#Resposta").append("<h1>Players</h1>");
 				$("#Resposta").append(data);
+				createRoutes(obj);
 			});
+		}
 
+
+		function createRoutes(obj){
 			var routes = "{ \"routes\":" + JSON.stringify(obj.routes) + " }";
-
 
 			$.post("routes/jsonImport", {json: routes}, function( data ) {
 				$("#Resposta").append("<h1>Rotas</h1>");
 				$("#Resposta").append(data);
 			});
+		}
+
+		$("button").click(function(){
+			$("#Resposta").html(" ");
+			var json = $("#JSON").val();
+			var obj = JSON.parse(json);
+			createLocal(obj);
 		});
 	</script>
 </body>

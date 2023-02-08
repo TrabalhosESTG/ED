@@ -2,7 +2,6 @@ package pt.estg.Grupo9ED;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -94,9 +93,6 @@ public class PortalsConnectors {
 			return "<h3>Portals: " + i + "</h3><h3>Connectors: " + j + "</h3><h3>Invalid: " + k + "</h3>";
 		} catch (ParseException e) {
 			return "<h3>Json Invalido</h3>";
-		} catch(Exception e)
-		{
-			return "<h3>Erro de servidor</h3>";
 		}
 	}
 
@@ -116,17 +112,21 @@ public class PortalsConnectors {
 				long to = (long) route.get("to");
 				long weight = (long) route.get("weight");
 				i++;
-				Local de = (Local) map.findLocalById(from);
-				Local para = map.findLocalById(to);
-				map.addEdge(de, para, weight);
+				//Local de = map.findLocalById(from);
+				//Local para = map.findLocalById(to);
+				map.addEdge(map.findLocalById(from), map.findLocalById(to), weight);
 			}
 			return "<h3>Importadas " + i + " rotas</h3>";
 		} catch (ParseException e) {
 			return "<h3>Json Invalido</h3>";
-		} catch(Exception e)
-		{
-			return "<h3>Erro de servidor</h3>";
 		}
+	}
+
+	@PostMapping("/admin/map/getTable")
+	public String mapGetTable(){
+		String ret = "";
+		ret += map.getAllConnectors()[0].getName();
+		return ret;
 	}
 
 }
