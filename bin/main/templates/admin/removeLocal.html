@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Remover Local</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Remover Local</h1>
+	<form action="submit_connector.php" method="post">
+		<label for="id">ID:</label>
+		<input type="text" id="id" name="id" required>
+		<br><br>
+		<input type="submit" value="Remover Local">
+	  </form>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js" integrity="sha512-nO7wgHUoWPYGCNriyGzcFwPSF+bPDOR+NvtOYy2wMcWkrnCNPKBcFEkU80XIN14UVja0Gdnff9EmydyLlOL7mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		// Captura o evento de envio do formulário
+		var form = document.querySelector("form");
+		form.addEventListener("submit", processForm);
+
+		function processForm(event) {
+			event.preventDefault();
+			var id = document.querySelector("#id").value;
+
+			$.post("local/remove?id=" + id
+			, function( data ) {
+				alert("Local Removido");
+			});
+		}
+	</script>
+</body>
+</html>
