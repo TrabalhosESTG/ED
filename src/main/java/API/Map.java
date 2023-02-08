@@ -9,21 +9,44 @@ import Lists.LinearNode;
 import Lists.LinkedList;
 import Lists.Network;
 
+/** 
+*Class that represents the map of the game
+*It extends the Network class
+*
+*@author Guilherme Silva (8210190)
+*@author David Francisco (8210088) 
+*/
 public class Map extends Network<Local>{
 	protected int count;
 	protected LinkedList<Local> locals;
 
+	/** 
+	* Constructor of the class 
+	*/
 	public Map() {
 		this.count = 0;
 		this.locals = new LinkedList<Local>();
 	}
 
+	/**
+	* Method that adds a local to the map
+	* 
+	* @param local
+	*/
 	public void addLocal(Local local) {
 		addVertex(local);
 		locals.add(local);
 		count++;
 	}
 
+	/**
+	 * Method that edits a local
+	 * @param local
+	 * @param latitude
+	 * @param longitude
+	 * @param maxEnergy
+	 * @throws InvalidValue
+	*/
 	public void editLocal(Local local, double latitude, double longitude, int maxEnergy) throws InvalidValue {
 		if(latitude < -90 || latitude > 90){
 			throw new InvalidValue("Latitude fora dos limites");
@@ -48,24 +71,44 @@ public class Map extends Network<Local>{
 		}
    }
 
+   	/**
+	* Method that removes a local from the map
+	* @param local
+	*/
 	public void removeLocal(Local local) {
 		removeVertex(local);
 		locals.remove(local);
 		count--;
 	}
 
+	/**
+	* Method that adds a connection between two locals
+	* @param local1
+	* @param local2
+	* @param weight
+	*/
 	public void addLocalConnection(Local local1, Local local2, double weight) {
 		addEdge(findIndexById(local1.getId()), findIndexById(local2.getId()), weight);
 		local1.addLocalControl(local2, weight);
 		local2.addLocalControl(local1, weight);
 	}
 
+	/**
+	 * Method that removes a connection between two locals
+	 * @param local1
+	 * @param local2
+	 */
 	public void removeLocalConnection(Local local1, Local local2) {
 		removeEdge(findIndexById(local1.getId()), findIndexById(local2.getId()));
 		local1.removeLocalControl(local2);
 		local2.removeLocalControl(local1);
 	}
 
+	/**
+	* Method that returns a local by its id
+	* @param id
+	* @return Local or null if the local doesn't exist
+	*/
 	public Local findLocalById(long id){
 		LinearNode<Local> current = this.locals.getHead();
 		while(current != null){
@@ -79,6 +122,11 @@ public class Map extends Network<Local>{
 		return null;
 	}
 
+	/**
+	 * Method that returns the index of a local by its id
+	 * @param id
+	 * @return the index of the local or -1 if the local doesn't exist
+	*/
 	public int findIndexById(long id){
 		LinearNode<Local> current = this.locals.getHead();
 		for(int i = 0; i < count; i++){
@@ -92,6 +140,10 @@ public class Map extends Network<Local>{
 		return -1;
 	}
 
+	/**
+	 * Method that returns an array with all the locals of type connector
+	 * @return array with all the locals of type connector
+	*/
 	public Local[] getAllConnectors(){
 		Local[] connectors = new Local[count];
 		LinearNode<Local> current = this.locals.getHead();
@@ -106,6 +158,10 @@ public class Map extends Network<Local>{
 		return connectors;
 	}
 
+	/**
+	 * Method that returns an array with all the locals of type portal
+	 * @return array with all the locals of type portal
+	*/
 	public Local[] getAllPortals(){
 		Local[] portals = new Local[count];
 		LinearNode<Local> current = this.locals.getHead();
@@ -120,6 +176,10 @@ public class Map extends Network<Local>{
 		return portals;
 	}
 
+	/**
+	 * Method that returns an array with all the locals ordered by id
+	 * @return array with all the locals ordered by id
+	*/
 	public Local[] orderLocalsById(String type){
 		Local[] locals;
 		if(type.equals("Connector")){
@@ -142,6 +202,13 @@ public class Map extends Network<Local>{
 	}
 
 
+	/**
+	 * Method that returns the shortest path between two locals passing by another local
+	 * @param local1
+	 * @param local2
+	 * @param local3
+	 * @return the shortest path between two locals passing by another local
+	*/
 	public String shortestPathBetweenAnother(Local local1, Local local2, Local local3) {
 		String ret = "<h1>";
 		double path1 = shortestPathWeight(findIndexById(local1.getId()), findIndexById(local3.getId()));
@@ -159,6 +226,12 @@ public class Map extends Network<Local>{
 		return ret;
 	}
 
+	/**
+	 * Method that returns the shortest path between two locals
+	 * @param local1
+	 * @param local2
+	 * @return the shortest path between two locals
+	*/
 	public String shortestPath(Local local1, Local local2) {
 		String ret = "<h1>";
 		double path = shortestPathWeight(findIndexById(local1.getId()), findIndexById(local2.getId()));
@@ -171,10 +244,18 @@ public class Map extends Network<Local>{
 		return ret;
 	}
 
+	/**
+	 * Getter for the count
+	 * @return the count
+	*/
 	public int getCount() {
 		return count;
 	}
 
+	/**
+	 * Method that returns an array with all the locals
+	 * @return array with all the locals
+	*/
 	public Local[] getAllLocals(){
 		Local[] locals = new Local[count];
 		LinearNode<Local> current = this.locals.getHead();
@@ -187,6 +268,10 @@ public class Map extends Network<Local>{
 		return locals;
 	}
 
+	/**
+	 * Method that creates a json with all the routes of the map
+	 * @return json with all the routes of the map
+	*/
 	public JSONObject getRoutesJson(){
 		JSONObject obj = new JSONObject();
 		JSONArray array = new JSONArray();
