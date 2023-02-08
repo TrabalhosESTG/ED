@@ -34,9 +34,9 @@ Importar ficheiro JSON com informações de jogadores ☑️
 
 Exportar ficheiro JSON com informações de jogadores ☑️
 
-Calcular o caminho mais curto entre 2 pontos -
+Calcular o caminho mais curto entre 2 pontos ☑️
 
-Calcular o caminho mais curto entre 2 pontos a passar obrigatóriamente num local -
+Calcular o caminho mais curto entre 2 pontos a passar obrigatóriamente num local ☑️
 
 Exportar JSON com informação relativa ao caminho mais curto ☑️
 
