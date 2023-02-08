@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -149,5 +150,40 @@ public class PortalsConnectors {
 		}
 		ret += "</table>";
 		return ret;
+	}
+
+	@GetMapping("/JSON/locals")
+	public String jsonLocals() {
+		JSONObject ret = new JSONObject();
+		JSONArray localsArray = new JSONArray();
+		for (Local local : map.getAllLocals()) {
+			if (local != null) {
+				JSONObject localObject = new JSONObject();
+				localObject.put("id", local.getId());
+				localObject.put("type", local.getType());
+				localObject.put("name", local.getName());
+				JSONObject coordinates = new JSONObject();
+				coordinates.put("latitude", local.getLatitude());
+				coordinates.put("longitude", local.getLongitude());
+				localObject.put("coordinates", coordinates);
+				JSONObject gameSettings = new JSONObject();
+				if (local.getType().equals("Portal")) {
+					gameSettings.put("energy", local.getEnergy());
+					gameSettings.put("maxEnergy", local.getMaxEnergy());
+				} else if (local.getType().equals("Connector")) {
+					gameSettings.put("energy", local.getEnergy());
+					gameSettings.put("cooldown", 1);//local.getCooldown());
+				}
+				localObject.put("gameSettings", gameSettings);
+				localsArray.add(localObject);
+			}
+		}
+		ret.put("locals", localsArray);
+		return ret.toJSONString();
+	}
+
+	@GetMapping("/JSON/routes")
+	public String jsonRoutes() {
+		return map.getRoutesJson().toJSONString();
 	}
 }

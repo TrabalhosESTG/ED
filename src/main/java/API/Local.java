@@ -4,20 +4,23 @@ import Lists.LinearNode;
 import Lists.LinkedList;
 
 /**
-* Class that represents a local in the game.
+* Class that represents a local in the game
+* A local can be a "Portal" or a "Connector"
+*
 *@author Guilherme Silva (8210190)
 *@author David Francisco (8210088)
 */
+
 public class Local{
     protected long id;
+	protected String name;
     protected String type;
-    protected String name;
-    protected long energy;
     protected Player player;
     protected double latitude;
     protected double longitude;
     protected String conquererPlayer;
 	protected String conquererTeam;
+	protected long energy;
 	protected long maxEnergy;
     protected long cooldown;
     protected LinkedList<LocalControl> LocalControl = new LinkedList<LocalControl>();
@@ -373,5 +376,14 @@ public class Local{
 			conquer();
 			System.out.println("You have conquered" + this.name + "!");
 		}
+	}
+
+	/**
+	* Gets the LocalControl list
+	*
+	* @return LocalControl list
+	*/
+	public LinkedList<LocalControl> getLocalControl() {
+		return LocalControl;
 	}
 }
