@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Adicionar Conector</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Adicionar Conector</h1>
+	<span id="resposta"></span>
+	<form action="submit_connector.php" method="post">
+		<label for="id_inicio">Id local inicio:</label>
+		<input type="text" id="id_inicio" name="id_inicio" required>
+		<br><br>
+		<label for="id_fim">Id local fim:</label>
+		<input type="text" id="id_fim" name="id_fim" required>
+		<br><br>
+		<label for="id_intermedio">Id local intermedio (facultativo):</label>
+		<input type="number" id="id_intermedio" name="id_intermedio">
+		<br><br>
+		<input type="submit" value="Adicionar Conector">
+	</form>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js" integrity="sha512-nO7wgHUoWPYGCNriyGzcFwPSF+bPDOR+NvtOYy2wMcWkrnCNPKBcFEkU80XIN14UVja0Gdnff9EmydyLlOL7mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		// Captura o evento de envio do formulário
+		var form = document.querySelector("form");
+		form.addEventListener("submit", processForm);
+
+		function processForm(event) {
+		event.preventDefault();
+		var id_inicio = document.querySelector("#id_inicio").value;
+		var id_intermedio = document.querySelector("#id_intermedio").value;
+		var id_fim = document.querySelector("#id_fim").value;
+
+		if(id_intermedio == ""){
+			$.post("/rotas/maisCurta?id_inicio=" + id_inicio
+			+ "&id_fim=" + id_fim, function( data ) {
+				$("#resposta").html(data);
+			});
+		}else{
+		$.post("/rotas/maisCurtaIntermedio?id_inicio=" + id_inicio
+			+ "&id_fim=" + id_fim
+			+ "&id_intermedio" + id_intermedio, function( data ) {
+				$("#resposta").html(data);
+			});
+		}
+	}
+	</script>
+</body>
+</html>
